@@ -8,6 +8,8 @@ import time
 import string
 import random
 import json
+import sys
+import ast
 now = time.time()
 # A function to partition edges from a perfect maximum matching into E0, EW, E1 set
 '''
@@ -427,19 +429,17 @@ def generate_sample_graph(number, min_nodes, max_nodes):
         graphs.append(graph)
     return graphs
 
-graphs = []
-graphs = generate_sample_graph(1,5,5)
-for x_to_y_graph in graphs:
-    matching = HopcroftKarp(x_to_y_graph).maximum_matching()
-    is_perfect = True
-    for i in x_to_y_graph:
-            for j in x_to_y_graph[i]:
-                if i not in matching or j not in matching:
-                    is_perfect = False
-    if (is_perfect):
-        e_0, e_w, e_1 = perfect_matching_algorithm(x_to_y_graph)
-    else:
-        e_0, e_w, e_1 = imperfect_matching_algorithm(x_to_y_graph)
+x_to_y_graph = ast.literal_eval(sys.argv[1])
+matching = HopcroftKarp(x_to_y_graph).maximum_matching()
+is_perfect = True
+for i in x_to_y_graph:
+        for j in x_to_y_graph[i]:
+            if i not in matching or j not in matching:
+                is_perfect = False
+if (is_perfect):
+    e_0, e_w, e_1 = perfect_matching_algorithm(x_to_y_graph)
+else:
+    e_0, e_w, e_1 = imperfect_matching_algorithm(x_to_y_graph)
 
 def convert_set_to_dict(output):
     output_dict = {}
