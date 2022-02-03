@@ -65,11 +65,12 @@ def perfect_matching_algorithm(x_to_y_graph):
     # Adding edges into weakly matching set - EW
     if sccs != 0:
         for scc in sccs:
-            for i in scc:
-                if i in x_to_y_graph:
-                    for j in scc:
-                        if j in x_to_y_graph[i]:
-                            e_w.add(tuple((i, j)))
+            if len(scc) >= 4:
+                for i in scc:
+                    if i in x_to_y_graph:
+                        for j in scc:
+                            if j in x_to_y_graph[i]:
+                                e_w.add(tuple((i, j)))
 
     # Adding edges into maximum matching set - E1
     for i in matching:
