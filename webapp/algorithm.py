@@ -430,7 +430,15 @@ def generate_sample_graph(number, min_nodes, max_nodes):
         graphs.append(graph)
     return graphs
 
-x_to_y_graph = ast.literal_eval(sys.argv[1])
+# User Input 
+# Number of left vertices
+left_vertices_num = int(sys.argv[1])
+# Number of right vertices
+right_vertices_num = int(sys.argv[2])
+# Number of edges
+edges_num = int(sys.argv[3])
+# x_to_y_graph = ast.literal_eval(sys.argv[1])
+x_to_y_graph = generate_bipartite_graph(left_vertices_num,right_vertices_num,edges_num)
 matching = HopcroftKarp(x_to_y_graph).maximum_matching()
 is_perfect = True
 for i in x_to_y_graph:
@@ -459,4 +467,8 @@ output["E0"] = e_0_dict
 output["EW"] = e_w_dict
 output["E1"] = e_1_dict
 
-print(json.dumps(output))
+json_graph = x_to_y_graph
+for i in json_graph:
+    json_graph[i] = (list(json_graph[i]))
+print(json.dumps(json_graph))
+# print(json.dumps(output))

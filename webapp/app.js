@@ -8,11 +8,12 @@ app.use(express.json());
 
 app.post('/api/', (req, res) => {
     const { spawn } = require('child_process');
-    const pythonSpawn = spawn('python', ['algorithm.py', req.body.jsonData]);
-
+    jsonInput = JSON.parse(req.body.jsonData);
+    //C:/Users/User/anaconda3/envs/dis/python
+    const pythonSpawn = spawn('python', ['algorithm.py', jsonInput['leftVertices'], jsonInput['rightVertices'], jsonInput['edges']]);
     pythonSpawn.stdout.on('data', (data) => {
       // When there's no error
-      res.status(200).send(JSON.parse(data));
+      res.status(200).send((data));
     });
 
     pythonSpawn.stderr.on('data', (data) => {

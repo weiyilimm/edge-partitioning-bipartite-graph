@@ -1,0 +1,13 @@
+.bg-darkgrey{
+    background-color: #282828;
+}
+
+.logo{
+    text-decoration: none;
+    color: #e0e0e0;
+}
+
+.logo:hover {
+    color: white;
+    transition: 0.3s;
+}

@@ -1,0 +1,148 @@
+import React, { Component, components, useEffect, useState } from 'react';
+import { Button } from 'react-bootstrap';
+import CreateGraph from './graph';
+import "./learn.css";
+import NavigationBar from './NavigationBar'
+
+class Learn extends React.Component {
+    constructor(props) {
+        super(props);
+        // State values
+        this.state = {
+            leftVertices: "1",
+            rightVertices: "1",
+            edges: "1",
+            // To populate values for edges dropdown
+            edgesList: [1],
+            res: ""
+        }
+    }
+
+    // When the user choose a value in dropdown
+    handleChangeLeft = (e) => {
+        // Set the state
+        this.setState({leftVertices:e.target.value});
+        // Get the number of left vertices
+        // Can't use this.state.leftVertices because it hasn't been updated
+        var leftNumber = e.target.value;
+        // Get the number of right vertices
+        var rightNumber = this.state.rightVertices;
+        // Find the min number of edges
+        // Minimum of edges is the maximum number between left and right vertices
+        var min = Math.max(leftNumber, rightNumber);
+        // Find the max number of edges
+        var max = leftNumber * rightNumber;    
+        // Empty the array before pushing new values
+        this.state.edgesList = []
+        // Set the edge state to minimum when the dropdown changes
+        this.setState({edges:min});
+        for (let i = min; i <= max; i++) {
+            this.state.edgesList.push(i)
+        }
+    }
+    
+    // Everything same as above function just the opposite
+    handleChangeRight = (e) => {
+        this.setState({rightVertices:e.target.value});
+        var leftNumber = this.state.leftVertices;
+        var rightNumber = e.target.value;
+        var min = Math.max(leftNumber, rightNumber);
+        var max = leftNumber * rightNumber;    
+        this.state.edgesList = []
+        this.setState({edges:min});
+        for (let i = min; i <= max; i++) {
+            this.state.edgesList.push(i)
+        }
+    }
+
+    // Update the state of edges 
+    handleChangeEdges =(e) => {
+        this.setState({edges:e.target.value});
+    }
+
+    // Generate json to post to server
+    generateVertices =() => {
+        // Change the user input into JSON 
+        var obj = new Object();
+        obj.leftVertices = this.state.leftVertices;
+        obj.rightVertices = this.state.rightVertices;
+        obj.edges = this.state.edges;
+
+        const userInput = JSON.stringify(obj);
+        const axios = require('axios')
+        // Post the JSON to Node.js server
+        // And get back the response
+        axios.post('/api',
+            {
+                jsonData: userInput
+            }).then(res => {
+                console.log(`statusCode: ${res.status}`)
+                console.log(res.data)
+                this.setState({res:res.data});
+            }).catch(error => {
+                console.log(`statusCode: ${error.response.status}`)
+                console.log(`Bad Request`)
+            })
+    }
+
+    render() {
+        return (
+            <div>
+                <NavigationBar />
+                <div className='container-lg'>
+                    <div className='row'>
+                        <div className='col-md-6 col-xs-12'>
+                            <CreateGraph jsonData={this.state.res}/>
+                        </div >
+                        <div className='side-board col-md-6 col-xs-12'>
+                            <p>Please select the number of left and right vertices below.</p>
+                            <div className="form-group">
+                                <label>Number of left vertices</label>
+                                <div className="col-sm-6 col-md-3">
+                                    <select className="form-control" value={this.state.leftVertices} onChange={this.handleChangeLeft}>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                        <option>7</option>
+                                        <option>8</option>
+                                        <option>9</option>
+                                    </select> 
+                                </div>
+                                <label>Number of right vertices</label>
+                                <div className="col-sm-6 col-md-3">
+                                    <select className="form-control" value={this.state.rightVertices} onChange={this.handleChangeRight}>
+                                        <option>1</option>
+                                        <option>2</option>
+                                        <option>3</option>
+                                        <option>4</option>
+                                        <option>5</option>
+                                        <option>6</option>
+                                        <option>7</option>
+                                        <option>8</option>
+                                        <option>9</option>
+                                    </select> 
+                                </div>
+                                <label>Number of edges</label>
+                                <div className="col-sm-6 col-md-3">
+                                    <select className="form-control" value={this.state.edges} onChange={this.handleChangeEdges}>
+                                    {this.state.edgesList.map(edge => (
+                                        <option key = {edge}>{edge}</option>
+                                    ))}
+                                    </select> 
+                                </div>
+                            </div>
+                            <Button className="btn btn-lg btn-pink" role="button" onClick={this.generateVertices}>Generate Vertices</Button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                
+                
+        )
+    }
+}
+
+export default Learn;

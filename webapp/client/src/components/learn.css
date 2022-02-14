@@ -1,0 +1,19 @@
+.container-lg{
+    margin-right:0px !important;
+}
+
+.side-board{
+    background-color: #282828;
+    color: white;
+    width: 660px;
+    height: 100vmin;
+    padding-left: 30px;
+    float: right !important;
+}
+
+.btn-pink{
+    width: 220px;
+    height: auto;
+    font-size: 15px;
+}
+

@@ -1,0 +1,33 @@
+
+.content{
+    color: black 
+}
+
+.title{
+    margin-top: 9rem;
+}
+
+.details{
+    color: black;
+    width: 100%;
+    margin-top: 3.5rem;
+}
+
+.btn-pink{
+    background-color: #EC6E6E !important;
+    color: white !important;
+    width: 200px;
+    height: 50px;
+    margin-top: 2rem;
+    vertical-align: middle !important;
+}
+
+/* .container{
+    display: flex;
+} */
+
+
+.info {
+    text-align: center;
+    list-style-position: inside;
+}
