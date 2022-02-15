@@ -1,13 +1,14 @@
 import React, { Component, components, useEffect, useRef } from 'react';
 import * as d3 from 'd3'
 
-const CreateGraph = ({jsonData}) => {
-
+const CreateGraph = ({jsonData, partitionEdges}) => {
+    
     const ref = useRef()
     // Convert json string into data set
     // Data set contains nodes and edges list
     // json example: {'x_1': [1], 'x_2': [0], 'x_3': [2, 3], 'x_4': [2]}
-    function jsonToDataset(json) {
+    // partition edges : {'E0': {'x_1': [3]}, 'EW': {'x_4': [2, 0], 'x_1': [2, 0]}, 'E1': {'x_3': [1], 'x_2': [3]}}
+    function jsonGraphToDataset(json, partitionEdgesJSON) {
         var unique_left = new Set();
         var unique_right = new Set();
         Object.keys(json).forEach(
@@ -39,13 +40,35 @@ const CreateGraph = ({jsonData}) => {
                 })
             }
         )
-
-        return {"nodes": nodes, "edges": edges};
+        // Split json partition edges into three different edges list
+        var e0 = []
+        var ew = []
+        var e1 = []
+        Object.keys(partitionEdgesJSON).forEach(
+            function(key) {
+                var edgeJSON = partitionEdgesJSON[key]
+                Object.keys(edgeJSON).forEach( 
+                    function(source) {
+                        var targetList = edgeJSON[source]
+                        targetList.forEach(function(r) {
+                            if (key == "E0"){
+                                e0.push({"source": source, "target": r});
+                            }
+                            if (key == "EW"){
+                                ew.push({"source": source, "target": r});
+                            }
+                            if (key == "E1"){
+                                e1.push({"source": source, "target": r});
+                            }
+                        })
+                    }
+                )
+            }
+        )
+        return {"nodes": nodes, "edges": edges, "E0": e0, "EW": ew, "E1": e1};
     }
-    console.log(jsonData);
-    var json = jsonData  // temporary json
-    var dataset = (jsonToDataset(json));
-    console.log(dataset)
+
+    var dataset = (jsonGraphToDataset(jsonData, partitionEdges));
     // The Y position of the first left and right nodes
     const origin = 0;
     const spacing = 100;
@@ -58,25 +81,33 @@ const CreateGraph = ({jsonData}) => {
             if (element.isLeft)
             {
                 left_count += 1;
-                element.x = 50;
+                element.x = 100;
                 element.y = spacing * left_count + origin;
             }
             else{
                 right_count += 1;
-                element.x = 350;
+                element.x = 400;
                 element.y = spacing * (element.name+1) + origin; 
             }
         });
+        var height = (Math.max(left_count, right_count)) * 120
+        if (height <= 548){
+            height = 548;
+        }
         var svg = d3.select("svg");
         svg.selectAll("*").remove();
+
         const svgElement = d3.select(ref.current)
-                            .attr("viewBox", `0 0 500 500`)
+                            .attr("viewBox", `0 0 500 ${height}`)
+        
         // Plot the edges
         var links = svgElement.selectAll("link")
+            
             .data(dataset.edges)
             .enter()
             .append("line")
             .attr("class", "link")
+            
             .attr("x1", function(l) {
                 var sourceNode = dataset.nodes.filter(
                     function(data){ return data.id === l.source }
@@ -94,6 +125,7 @@ const CreateGraph = ({jsonData}) => {
             .attr("fill", "#69b3a2")
             .attr("stroke", "black")
             .attr("stroke-width", 1.5)
+            
 
         // Plot the nodes
         var nodes = svgElement.append("g")
@@ -124,6 +156,94 @@ const CreateGraph = ({jsonData}) => {
             .text(function(d) {
               return d.name;
              })
+        
+        nodes.on('mouseover', function(d, i) {
+            
+            links.style('stroke-width', function(l) {
+                if (i.name === l.source || i.name === l.target)
+                    return 3;
+                else
+                    return 0.3;
+                });
+            });
+        nodes.on('mouseout', function() {
+            links.style('stroke-width', 1);
+        });
+
+        if (partitionEdges != ""){
+            var legendHeight = height-20
+            var legendFontSize = "10px"
+    
+            svgElement.append("circle").attr("cx",10).attr("cy",legendHeight).attr("r", 6).style("fill", "#f57e7e")
+            var e0 = svgElement.append("text").attr("x", 20).attr("y", legendHeight).text("No maximum matching (E0)").style("font-size", legendFontSize).attr("alignment-baseline","middle")
+            var e0JSONString = JSON.stringify(dataset.E0)
+            e0.on('mouseover', function(d, i) {
+                links.style('stroke-width', function(l) {
+                    if (e0JSONString.includes(JSON.stringify(l))){
+                        return 4
+                    }
+                    else{
+                        return 0.3
+                    }
+                })
+                links.style('stroke', function(l) {
+                    if (e0JSONString.includes(JSON.stringify(l))){
+                        return "#f57e7e"
+                    }
+                })
+            })
+            e0.on('mouseout', function() {
+                links.style('stroke-width', 1);
+                links.style('stroke', "black");
+            });
+            
+            svgElement.append("circle").attr("cx",180).attr("cy",legendHeight).attr("r", 6).style("fill", "#efb5a3")
+            var ew = svgElement.append("text").attr("x", 190).attr("y", legendHeight).text("Some maximum matching (EW)").style("font-size", legendFontSize).attr("alignment-baseline","middle")
+            var ewJSONString = JSON.stringify(dataset.EW)
+            ew.on('mouseover', function(d, i) {
+                links.style('stroke-width', function(l) {
+                    if (ewJSONString.includes(JSON.stringify(l))){
+                        return 4
+                    }
+                    else{
+                        return 0.3
+                    }
+                })
+                
+                links.style('stroke', function(l) {
+                    if (ewJSONString.includes(JSON.stringify(l))){
+                        return "#efb5a3"
+                    }
+                })
+            })
+            ew.on('mouseout', function() {
+                links.style('stroke-width', 1);
+                links.style('stroke', "black");
+            });
+    
+            svgElement.append("circle").attr("cx",360).attr("cy",legendHeight).attr("r", 6).style("fill", "#315f72")
+            var e1 = svgElement.append("text").attr("x", 370).attr("y", legendHeight).text("All maximum matching (E1)").style("font-size", legendFontSize).attr("alignment-baseline","middle")
+            var e1JSONString = JSON.stringify(dataset.E1)
+            e1.on('mouseover', function(d, i) {
+                links.style('stroke-width', function(l) {
+                    if (e1JSONString.includes(JSON.stringify(l))){
+                        return 4
+                    }
+                    else{
+                        return 0.3
+                    }
+                })
+                links.style('stroke', function(l) {
+                    if (e1JSONString.includes(JSON.stringify(l))){
+                        return "#315f72"
+                    }
+                })
+            })
+            e1.on('mouseout', function() {
+                links.style('stroke-width', 1);
+                links.style('stroke', "black");
+            });
+        }
     }, [dataset]);
 
     return (

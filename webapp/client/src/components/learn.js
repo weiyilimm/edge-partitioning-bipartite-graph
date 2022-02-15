@@ -92,10 +92,24 @@ class Learn extends React.Component {
                 <div className='container-lg'>
                     <div className='row'>
                         <div className='col-md-6 col-xs-12'>
-                            <CreateGraph jsonData={this.state.res}/>
+                            <CreateGraph jsonData={this.state.res} partitionEdges=""/>
                         </div >
-                        <div className='side-board col-md-6 col-xs-12'>
-                            <p>Please select the number of left and right vertices below.</p>
+                        <div className='side-board col-md-6 col-xs-12 pb-5'>
+                            <h4 className='mt-4 mb-5'>Graph Initialisation</h4>
+                            <p className='mb-5 pb-5'>
+                                The problem can be modelled in a bipartite graph G(X, Y, E) 
+                                where X is the left vertex set, Y is the right vertex set, and E 
+                                is the edge set. Left (X) and right (Y) vertices are two independent sets,
+                                and all edges have one left endpoint vertex to right endpoint vertex.
+
+                            </p>
+                            <p>
+                                Please select the number of left and right vertices below.
+                                
+                            </p>
+                            <p style={{ fontSize : "0.8rem"}}>
+                                Note: The edges are assigned randomly for the sake of simplicity.
+                            </p>
                             <div className="form-group">
                                 <label>Number of left vertices</label>
                                 <div className="col-sm-6 col-md-3">
