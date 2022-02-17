@@ -1,4 +1,4 @@
-import React, {Component, components, useEffect, useState} from 'react';
+import React from 'react';
 import { Link } from "react-router-dom";
 
 class CreateIntro extends React.Component {
@@ -12,7 +12,7 @@ class CreateIntro extends React.Component {
                     </div>
                 </div>
                 <div>
-                    <Link to="learn" className="btn btn-lg btn-pink" href="learn" role="button">Learn</Link>
+                    <Link to="graph-initialisation" className="btn btn-lg btn-pink" href="graph-initialisation" role="button">Learn</Link>
                 </div>
             </div>
         );

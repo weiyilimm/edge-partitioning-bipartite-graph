@@ -1,14 +1,14 @@
-import React, { Component, components, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3'
 
-const CreateGraph = ({jsonData, partitionEdges}) => {
+const CreateGraph = ({jsonData, partitionEdges, matching}) => {
     
     const ref = useRef()
     // Convert json string into data set
     // Data set contains nodes and edges list
     // json example: {'x_1': [1], 'x_2': [0], 'x_3': [2, 3], 'x_4': [2]}
     // partition edges : {'E0': {'x_1': [3]}, 'EW': {'x_4': [2, 0], 'x_1': [2, 0]}, 'E1': {'x_3': [1], 'x_2': [3]}}
-    function jsonGraphToDataset(json, partitionEdgesJSON) {
+    function jsonGraphToDataset(json, partitionEdgesJSON, matchingJSON) {
         var unique_left = new Set();
         var unique_right = new Set();
         Object.keys(json).forEach(
@@ -51,13 +51,13 @@ const CreateGraph = ({jsonData, partitionEdges}) => {
                     function(source) {
                         var targetList = edgeJSON[source]
                         targetList.forEach(function(r) {
-                            if (key == "E0"){
+                            if (key === "E0"){
                                 e0.push({"source": source, "target": r});
                             }
-                            if (key == "EW"){
+                            if (key === "EW"){
                                 ew.push({"source": source, "target": r});
                             }
-                            if (key == "E1"){
+                            if (key === "E1"){
                                 e1.push({"source": source, "target": r});
                             }
                         })
@@ -65,10 +65,16 @@ const CreateGraph = ({jsonData, partitionEdges}) => {
                 )
             }
         )
-        return {"nodes": nodes, "edges": edges, "E0": e0, "EW": ew, "E1": e1};
+        var maxMatching = []
+        Object.keys(matchingJSON).forEach(
+            function(key) {
+                maxMatching.push({"source": key, "target": matchingJSON[key]});
+            }
+        )
+        return {"nodes": nodes, "edges": edges, "E0": e0, "EW": ew, "E1": e1, "maxMatching":maxMatching};
     }
 
-    var dataset = (jsonGraphToDataset(jsonData, partitionEdges));
+    var dataset = (jsonGraphToDataset(jsonData, partitionEdges, matching));
     // The Y position of the first left and right nodes
     const origin = 0;
     const spacing = 100;
@@ -77,7 +83,6 @@ const CreateGraph = ({jsonData, partitionEdges}) => {
         var right_count = 0;
         // Initialise the x and y position of each node 
         (dataset.nodes).forEach((element, index, array) => {
-            const cy = origin + 20 * index
             if (element.isLeft)
             {
                 left_count += 1;
@@ -156,21 +161,26 @@ const CreateGraph = ({jsonData, partitionEdges}) => {
             .text(function(d) {
               return d.name;
              })
-        
-        nodes.on('mouseover', function(d, i) {
             
-            links.style('stroke-width', function(l) {
-                if (i.name === l.source || i.name === l.target)
-                    return 3;
-                else
-                    return 0.3;
-                });
-            });
-        nodes.on('mouseout', function() {
-            links.style('stroke-width', 1);
-        });
 
-        if (partitionEdges != ""){
+        // To avoid overlay when there's a matching showing
+        if (matching == ""){
+            nodes.on('mouseover', function(d, i) {
+            
+                links.style('stroke-width', function(l) {
+                    if (i.name === l.source || i.name === l.target)
+                        return 3;
+                    else
+                        return 0.3;
+                    });
+                });
+            nodes.on('mouseout', function() {
+                links.style('stroke-width', 1);
+            });
+        }
+        
+        
+        if (partitionEdges !== ""){
             var legendHeight = height-20
             var legendFontSize = "10px"
     
@@ -243,6 +253,18 @@ const CreateGraph = ({jsonData, partitionEdges}) => {
                 links.style('stroke-width', 1);
                 links.style('stroke', "black");
             });
+        }
+
+        if (matching != "") {
+            var matchingJSONString = JSON.stringify(dataset.maxMatching)
+            links.style('stroke-width', function(l) {
+                if (matchingJSONString.includes(JSON.stringify(l))){
+                    return 4
+                }
+                else{
+                    return console.log(l)
+                }
+            })
         }
     }, [dataset]);
 

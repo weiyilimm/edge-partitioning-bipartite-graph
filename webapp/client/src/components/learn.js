@@ -1,8 +1,12 @@
-import React, { Component, components, useEffect, useState } from 'react';
+import React from 'react';
 import { Button } from 'react-bootstrap';
 import CreateGraph from './graph';
 import "./learn.css";
 import NavigationBar from './NavigationBar'
+
+const Results = () => (
+    <Button className="btn btn-lg btn-pink" role="button" href="/graph-initialisation/learn">Go</Button>
+)
 
 class Learn extends React.Component {
     constructor(props) {
@@ -14,10 +18,12 @@ class Learn extends React.Component {
             edges: "1",
             // To populate values for edges dropdown
             edgesList: [1],
-            res: ""
+            res: "",
+            showButton: false
         }
     }
 
+    
     // When the user choose a value in dropdown
     handleChangeLeft = (e) => {
         // Set the state
@@ -56,12 +62,12 @@ class Learn extends React.Component {
     }
 
     // Update the state of edges 
-    handleChangeEdges =(e) => {
+    handleChangeEdges = (e) => {
         this.setState({edges:e.target.value});
     }
 
     // Generate json to post to server
-    generateVertices =() => {
+    generateVertices = () => {
         // Change the user input into JSON 
         var obj = new Object();
         obj.leftVertices = this.state.leftVertices;
@@ -73,26 +79,34 @@ class Learn extends React.Component {
         // Post the JSON to Node.js server
         // And get back the response
         axios.post('/api',
-            {
-                jsonData: userInput
-            }).then(res => {
-                console.log(`statusCode: ${res.status}`)
-                console.log(res.data)
-                this.setState({res:res.data});
-            }).catch(error => {
-                console.log(`statusCode: ${error.response.status}`)
-                console.log(`Bad Request`)
-            })
+        {
+            jsonData: userInput
+        }).then(res => {
+            localStorage.setItem('graph', JSON.stringify(res.data.graph));
+            localStorage.setItem('matching', JSON.stringify(res.data.matching));
+            localStorage.setItem('isPerfect', JSON.stringify(res.data.is_perfect));
+            localStorage.setItem('partitionEdges', JSON.stringify(res.data.partitionEdges));
+            console.log(`statusCode: ${res.status}`)
+            console.log(res.data.graph)
+            this.setState({res:res.data.graph})
+        }).catch(error => {
+            console.log(`statusCode: ${error.response.status}`)
+            console.log(`Bad Request`)
+        })
+        this.state.showButton = true;
     }
 
+    
+
     render() {
+        
         return (
             <div>
                 <NavigationBar />
                 <div className='container-lg'>
                     <div className='row'>
                         <div className='col-md-6 col-xs-12'>
-                            <CreateGraph jsonData={this.state.res} partitionEdges=""/>
+                            <CreateGraph jsonData={this.state.res} partitionEdges="" matching=""/>
                         </div >
                         <div className='side-board col-md-6 col-xs-12 pb-5'>
                             <h4 className='mt-4 mb-5'>Graph Initialisation</h4>
@@ -137,7 +151,7 @@ class Learn extends React.Component {
                                         <option>7</option>
                                         <option>8</option>
                                         <option>9</option>
-                                    </select> 
+                                    </select>
                                 </div>
                                 <label>Number of edges</label>
                                 <div className="col-sm-6 col-md-3">
@@ -148,7 +162,15 @@ class Learn extends React.Component {
                                     </select> 
                                 </div>
                             </div>
-                            <Button className="btn btn-lg btn-pink" role="button" onClick={this.generateVertices}>Generate Vertices</Button>
+                            {/* <Link to="learn" className="btn btn-lg btn-pink" href="learn" role="button" onClick={this.generateVertices}>Generate Vertices</Link> */}
+                            <div>
+                                <Button className="btn btn-lg btn-pink" role="button" onClick={this.generateVertices}>Generate Vertices</Button>
+                            </div>
+                            <div className='mt-0 pt-0'>
+                                { this.state.showButton ? <Results /> : null }
+                            </div>
+                            
+                            
                         </div>
                     </div>
                 </div>
@@ -159,4 +181,6 @@ class Learn extends React.Component {
     }
 }
 
+
 export default Learn;
+

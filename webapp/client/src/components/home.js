@@ -1,4 +1,4 @@
-import React, { Component, components, useEffect, useState } from 'react';
+import React from 'react';
 import "./home.css";
 import NavigationBar from './NavigationBar'
 import CreateGraph from './graph'
@@ -21,6 +21,7 @@ class Home extends React.Component {
                             <CreateGraph 
                             jsonData={{"x_1": [0, 2, 3], "x_2": [3], "x_3": [1], "x_4": [0, 2]}}
                             partitionEdges={{"E0": {"x_1": [3]}, "EW": {"x_4": [2, 0], "x_1": [2, 0]}, "E1": {"x_3": [1], "x_2": [3]}}}
+                            matching=""
                             />
                         </div>
                     </div>
@@ -53,7 +54,7 @@ class Home extends React.Component {
                             </div>
                             <div className="details pb-5">
                               <h5>See how this works...</h5>
-                              <Link to="learn" className="btn btn-lg btn-pink" href="learn" role="button">Learn</Link>
+                              <Link to="graph-initialisation" className="btn btn-lg btn-pink" href="graph-initialisation" role="button">Learn</Link>
                             </div>
                         </div>
                     </div>

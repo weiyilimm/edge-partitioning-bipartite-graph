@@ -459,16 +459,37 @@ def convert_set_to_dict(output):
             output_dict[i[0]].append(i[1])
     return output_dict
 
-output = {}
+# output = {}
+# e_0_dict = convert_set_to_dict(e_0)
+# e_w_dict = convert_set_to_dict(e_w)
+# e_1_dict = convert_set_to_dict(e_1)
+# output["E0"] = e_0_dict
+# output["EW"] = e_w_dict
+# output["E1"] = e_1_dict
+
+# json_graph = x_to_y_graph
+# for i in json_graph:
+#     json_graph[i] = (list(json_graph[i]))
+# print(json.dumps(json_graph))
+
+partition_edges_json = {}
 e_0_dict = convert_set_to_dict(e_0)
 e_w_dict = convert_set_to_dict(e_w)
 e_1_dict = convert_set_to_dict(e_1)
-output["E0"] = e_0_dict
-output["EW"] = e_w_dict
-output["E1"] = e_1_dict
+partition_edges_json["E0"] = e_0_dict
+partition_edges_json["EW"] = e_w_dict
+partition_edges_json["E1"] = e_1_dict
 
-json_graph = x_to_y_graph
-for i in json_graph:
-    json_graph[i] = (list(json_graph[i]))
-print(json.dumps(json_graph))
-# print(json.dumps(output))
+
+graph_json = x_to_y_graph
+for i in graph_json:
+    graph_json[i] = (list(graph_json[i]))
+
+# Filter out number key value
+matching_json = {}
+for i in matching:
+    if isinstance(i, str):
+        matching_json[i] = matching[i]
+
+json_data = {"graph":graph_json,"matching":matching_json,"is_perfect":is_perfect, "partitionEdges":partition_edges_json}
+print(json.dumps(json_data))
