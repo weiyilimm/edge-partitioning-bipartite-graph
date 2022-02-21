@@ -10,6 +10,7 @@ const Algo = () => {
     var graphMatching = JSON.parse(localStorage.getItem('matching'))
     var SCCArray = JSON.parse(localStorage.getItem('SCC'))
     var partitionEdgesJSON = JSON.parse(localStorage.getItem('partitionEdges'))
+    var labelSetJSON = JSON.parse(localStorage.getItem('labelSet'))
     // Step 2
     var step2title = 'Step 2: Finding maximum matching';
     var step2Text1 = 'A matching (M) in a Bipartite Graph is a set of edges, ' +
@@ -93,6 +94,11 @@ const Algo = () => {
     var step9Text2Perfect = 'Try hovering over the legend and see the partitioned edges set!';
     var step9Text3Perfect = '';
 
+    // Step 4 Imerfect
+    var step4titleImperfect = 'Step 4: Label vertices ';
+    var step4Text1Imperfect = '' 
+    var step4Text2Imperfect = '';
+
     const [matching, setMatching] = useState(graphMatching);
     const [stepCount, setStepCount] = useState(0);
     const [prevButtonDisabled, setPrevButtonDisabled] = useState('disabled');
@@ -108,7 +114,8 @@ const Algo = () => {
     const [showE1, setShowE1] = useState(false);
     const [showE0, setShowE0] = useState(false);
     const [showOnHover, setShowOnHover] = useState(false);
-
+    const [labelSet, setLabelSet] = useState('');
+    
     const nextButton = () => {
         // Perfect
         if (isPerfectMatching){
@@ -180,12 +187,21 @@ const Algo = () => {
         }
         // Imperfect
         if (!isPerfectMatching){
+            // Step 3
             if (stepCount === 0){
-                setPrevButtonDisabled('');
-                setTitle(step3title);
+                setPrevButtonDisabled('')
+                setTitle(step3title)
                 setText(step3Text1)
                 setText2(step3Text2Imperfect)
             }
+            // Step 4
+            if (stepCount === 1){
+                setTitle(step4titleImperfect);
+                setText(step4Text1Imperfect)
+                setText2(step4Text2Imperfect)
+                setLabelSet(labelSetJSON)
+            }
+            
         }
         setStepCount(stepCount+1)
     }
@@ -260,11 +276,19 @@ const Algo = () => {
             }
         }
         if (!isPerfectMatching){
+            // Step 3
             if (stepCount === 2){
                 setTitle(step3title);
                 setText(step3Text1)
                 setText2(step3Text2Imperfect)
+                setLabelSet('')
             }
+            // Step 4
+            // if (stepCount === 3){
+            //     setTitle(step4titleImperfect);
+            //     setText(step4Text1Imperfect)
+            //     setText2(step4Text2Imperfect)
+            // }
         }
         
         setStepCount(stepCount-1)
@@ -294,6 +318,7 @@ const Algo = () => {
                         showE1={showE1}
                         showE0={showE0}
                         showOnHover={showOnHover}
+                        labelSet={labelSet}
                         />
                     </div >
                     <div className='side-board col-md-6 col-xs-12'>

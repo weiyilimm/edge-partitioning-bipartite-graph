@@ -13,6 +13,9 @@ import ast
 now = time.time()
 
 SCC_GLOBAL = ""
+L_PLUS_GLOBAL = set()
+L_STAR_GLOBAL = set()
+L_U_GLOBAL = set()
 # A function to partition edges from a perfect maximum matching into E0, EW, E1 set
 '''
 Parameter
@@ -239,6 +242,12 @@ def imperfect_matching_algorithm(x_to_y_graph):
     # Find the unlabelled vertices and store into label_u
     label_u = all_vertices.difference(labelled_vertices)
 
+    global L_PLUS_GLOBAL
+    global L_STAR_GLOBAL
+    global L_U_GLOBAL
+    L_PLUS_GLOBAL = (label_plus)
+    L_STAR_GLOBAL = (label_star)
+    L_U_GLOBAL = (label_u)
 
     # No maximum matching edges a.k.a 0-persistent edges
     # If one of these edges is in the matching then it can't be maximum matching
@@ -495,5 +504,10 @@ for i in matching:
     if isinstance(i, str):
         matching_json[i] = matching[i]
 
-json_data = {"graph":graph_json,"matching":matching_json,"is_perfect":is_perfect, "partitionEdges":partition_edges_json, "SCC":SCC_GLOBAL}
+label_set_json = {}
+label_set_json['plus'] = (list(L_PLUS_GLOBAL))
+label_set_json['star'] = (list(L_STAR_GLOBAL))
+label_set_json['u'] = (list(L_U_GLOBAL))
+
+json_data = {"graph":graph_json,"matching":matching_json,"is_perfect":is_perfect, "partitionEdges":partition_edges_json, "SCC":SCC_GLOBAL, "labelSet":label_set_json}
 print(json.dumps(json_data))

@@ -87,6 +87,7 @@ class Learn extends React.Component {
             localStorage.setItem('isPerfect', JSON.stringify(res.data.is_perfect));
             localStorage.setItem('partitionEdges', JSON.stringify(res.data.partitionEdges));
             localStorage.setItem('SCC', JSON.stringify(res.data.SCC));
+            localStorage.setItem('labelSet', JSON.stringify(res.data.labelSet));
             console.log(`statusCode: ${res.status}`)
             console.log(res.data.graph)
             this.setState({res:res.data.graph})

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3'
 
-const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false, showLegend=false, showDirected=true, SCC=[], showE0=false, showEW=false, showE1=false}) => {
+const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false, showLegend=false, showDirected=true, SCC=[], showE0=false, showEW=false, showE1=false, labelSet=""}) => {
     const ref = useRef()
     // Convert json string into data set
     // Data set contains nodes and edges list
@@ -81,8 +81,26 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
         
         var left_count = 0;
         var right_count = 0;
+        if (labelSet !== ""){
+            var labelStarSet = labelSet.star
+            var labelPlusSet = labelSet.plus
+            var labelUSet = labelSet.u
+        }
+        
         // Initialise the x and y position of each node 
         (dataset.nodes).forEach((element, index, array) => {
+            if (labelSet !== ""){
+                if (labelStarSet.includes(element.name)){
+                    element.label = "*"
+                }
+                if (labelPlusSet.includes(element.name)){
+                    element.label = "+"
+                }
+                if (labelUSet.includes(element.name)){
+                    element.label = "∪"
+                }
+            }
+            
             if (element.isLeft)
             {
                 left_count += 1;
@@ -200,6 +218,13 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
             .text(function(d) {
               return d.name;
              })
+        
+        nodes.append("text")
+            .attr("dx", 0)
+            .attr("dy",-30)
+            .text(function (d) { return d.label; })
+            .style("text-anchor", "middle")
+            .style("fill", " #AF2413")
             
 
         //To avoid overlay when there's a matching showing
@@ -412,6 +437,14 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
             })
         }
 
+        // if (labelSet !== ""){
+        //     var labelStarSet = labelSet.star
+        //     var labelPlusSet = labelSet.plus
+        //     var labelUSet = labelSet.u
+        //     labelPlusSet.forEach(function(vertex){
+        //         console.log(vertex);
+        //     });
+        // }
         
     }, [dataset]);
 
