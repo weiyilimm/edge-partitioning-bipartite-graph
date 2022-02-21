@@ -21,7 +21,8 @@ class Home extends React.Component {
                             <CreateGraph 
                             jsonData={{"x_1": [0, 2, 3], "x_2": [3], "x_3": [1], "x_4": [0, 2]}}
                             partitionEdges={{"E0": {"x_1": [3]}, "EW": {"x_4": [2, 0], "x_1": [2, 0]}, "E1": {"x_3": [1], "x_2": [3]}}}
-                            matching=""
+                            showOnHover={true}
+                            showLegend={true}
                             />
                         </div>
                     </div>

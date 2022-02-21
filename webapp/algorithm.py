@@ -11,6 +11,8 @@ import json
 import sys
 import ast
 now = time.time()
+
+SCC_GLOBAL = ""
 # A function to partition edges from a perfect maximum matching into E0, EW, E1 set
 '''
 Parameter
@@ -66,6 +68,8 @@ def perfect_matching_algorithm(x_to_y_graph):
     if sccs != 0:
         for scc in sccs:
             if len(scc) >= 4:
+                global SCC_GLOBAL
+                SCC_GLOBAL = scc
                 for i in scc:
                     if i in x_to_y_graph:
                         for j in scc:
@@ -491,5 +495,5 @@ for i in matching:
     if isinstance(i, str):
         matching_json[i] = matching[i]
 
-json_data = {"graph":graph_json,"matching":matching_json,"is_perfect":is_perfect, "partitionEdges":partition_edges_json}
+json_data = {"graph":graph_json,"matching":matching_json,"is_perfect":is_perfect, "partitionEdges":partition_edges_json, "SCC":SCC_GLOBAL}
 print(json.dumps(json_data))
