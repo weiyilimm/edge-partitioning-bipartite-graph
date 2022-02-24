@@ -4,7 +4,7 @@ import NavigationBar from './NavigationBar'
 import CreateGraph from './graph'
 import CreateIntro from './intro'
 import { Link } from "react-router-dom";
-
+import Footer from './footer'
 
 class Home extends React.Component {
     // {'E0': {'x_1': [3]}, 'EW': {'x_4': [2, 0], 'x_1': [2, 0]}, 'E1': {'x_3': [1], 'x_2': [3]}}
@@ -57,10 +57,12 @@ class Home extends React.Component {
                               <h5>See how this works...</h5>
                               <Link to="graph-initialisation" className="btn btn-lg btn-pink" href="graph-initialisation" role="button">Learn</Link>
                             </div>
+                            <Footer />
                         </div>
                     </div>
                 </div>
             </div>
+            
         )
     }
 }

@@ -1,0 +1,14 @@
+.footer {
+    left: 0;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    background-color: white;
+    color: #6e6e73;
+    text-align: center;
+}
+
+.line{
+    width: 100%;
+}

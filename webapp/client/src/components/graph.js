@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3'
 
-const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false, showLegend=false, showDirected=true, SCC=[], showE0=false, showEW=false, showE1=false, labelSet=""}) => {
+const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false, showLegend=false, showDirected=true, SCC=[], showE0=false, showEW=false, showE1=false, labelSet="", showDMsets=false}) => {
     const ref = useRef()
     // Convert json string into data set
     // Data set contains nodes and edges list
@@ -78,7 +78,6 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
     const origin = 0;
     const spacing = 100;
     useEffect(() => {
-        
         var left_count = 0;
         var right_count = 0;
         if (labelSet !== ""){
@@ -246,6 +245,10 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
         
         if (showLegend === true){
             var legendHeight = height-20
+            if (left_count < 5 && right_count < 5){
+                legendHeight = height-85
+            }
+            
             var legendFontSize = "10px"
     
             svgElement.append("circle").attr("cx",10).attr("cy",legendHeight).attr("r", 6).style("fill", "#f57e7e")
@@ -436,15 +439,10 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
                 }
             })
         }
+        
+        if (showDMsets == true){
 
-        // if (labelSet !== ""){
-        //     var labelStarSet = labelSet.star
-        //     var labelPlusSet = labelSet.plus
-        //     var labelUSet = labelSet.u
-        //     labelPlusSet.forEach(function(vertex){
-        //         console.log(vertex);
-        //     });
-        // }
+        }
         
     }, [dataset]);
 

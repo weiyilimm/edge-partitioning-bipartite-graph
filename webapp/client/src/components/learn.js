@@ -3,6 +3,7 @@ import { Button } from 'react-bootstrap';
 import CreateGraph from './graph';
 import "./learn.css";
 import NavigationBar from './NavigationBar'
+import Footer from './footer'
 
 const Results = () => (
     <Button className="btn btn-lg btn-pink" role="button" href="/graph-initialisation/learn">Go</Button>

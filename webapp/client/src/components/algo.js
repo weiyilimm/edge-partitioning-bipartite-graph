@@ -18,9 +18,10 @@ const Algo = () => {
                     'endpoint vertex. A maximum matching is a matching of ' +
                     'maximum number of edges. In a maximum matching, if any ' +
                     'edge is added into it, it is no longer a matching.';
-    var step2Text2 = 'In order to find the maximum matching, ' +
-                    'a Hopcroft-Karp algorithm with a worst-case ' +
-                    'running time of O(n^1/2m) is used.';
+    var step2Text2 = <p>In order to find the maximum matching, 
+                    a <a href="https://epubs.siam.org/doi/epdf/10.1137/0202019" className='document'>
+                    Hopcroft-Karp algorithm</a> with a worst-case running time 
+                    of O(n^1/2m) is used.</p>;
     var step2Text3 = 'Note: Edges from set E are shown as black lines; ' +
                     'Matching edges from set M are shown as green lines.';
 
@@ -49,10 +50,11 @@ const Algo = () => {
                             'strongly connected if every vertex is ' +
                             'reachable from every other vertex. A strongly ' +
                             'connected component of G is a maximal strongly connected subgraph of G.';
-    var step5Text2Perfect = 'A Tarjan\'s strongly connected components algorithm ' +
-                            'with a worst case running time of O(|X| + |Y| + |E|), where ' +
-                            '|X| is the number of X vertices, |Y| is the number of Y vertices, ' +
-                            'and |E| is the number of edges is used.';
+    var step5Text2Perfect = <p>A <a href="https://epubs.siam.org/doi/epdf/10.1137/0201010" 
+                            className='document'>Tarjan's strongly connected components 
+                            algorithm</a> with a worst case running time of O(|X| + |Y| + |E|), 
+                            where |X| is the number of X vertices, |Y| is the number of Y vertices, 
+                            and |E| is the number of edges is used.</p>;
     var step5Text3Perfect = 'Note: Edges from set E are shown as black lines; ' +
                             'Edges from SCC component are shown as green lines.';
 
@@ -96,8 +98,32 @@ const Algo = () => {
 
     // Step 4 Imerfect
     var step4titleImperfect = 'Step 4: Label vertices ';
-    var step4Text1Imperfect = '' 
-    var step4Text2Imperfect = '';
+    var step4Text1Imperfect = 'In an imperfect matching, vertices in X and Y set are labelled into plus(+), star(*), or u(∪).';
+    var step4Text2Imperfect = <p className='pseudocode'><span style={{"color": "#af00db"}}>label</span> exposed vertices in X as plus
+    <hr></hr><span style={{"color": "#af00db"}}>while</span> (there are vertices to be labelled as plus) <span style={{"color": "#af00db"}}>do</span>:
+    <hr></hr>&nbsp;&nbsp;&nbsp;&nbsp;<span style={{"color": "#af00db"}}>label</span> unlabelled vertices in Y that is adjacent to a labelled vertex in X by an unmatched edge as plus
+    <hr></hr>&nbsp;&nbsp;&nbsp;&nbsp;<span style={{"color": "#af00db"}}>label</span> unlabelled vertices in X that is adjacent to a labelled vertex in Y by an matched edge as plus
+    <hr></hr><span style={{"color": "#af00db"}}>label</span> exposed vertices in Y as star
+    <hr></hr><span style={{"color": "#af00db"}}>while</span> (there are vertices to label as star) <span style={{"color": "#af00db"}}>do</span>:
+    <hr></hr>&nbsp;&nbsp;&nbsp;&nbsp;<span style={{"color": "#af00db"}}>label</span> unlabelled vertices in X that is adjacent to a labelled vertex in Y by an unmatched edge as star
+    <hr></hr>&nbsp;&nbsp;&nbsp;&nbsp;<span style={{"color": "#af00db"}}>label</span> unlabelled vertices in Y that is adjacent to a labelled vertex in X by an matched edge as star
+    <hr></hr><span style={{"color": "#af00db"}}>label</span> unlabelled vertices as U</p>;
+    
+    // Step 5 Imperfect
+    var step5titleImperfect = 'Step 5: Partition vertices';
+    var step5Text1Imperfect = <p>In a bipartite graph G(X, Y, E), vertices can be partitioned into the <a href="https://en.wikipedia.org/wiki/Dulmage%E2%80%93Mendelsohn_decomposition" 
+    className='document'>Dulmage and Mendelsohn sets</a>.</p>
+    var step5Text2Imperfect = <p>Dulmage and Mendelsohn sets
+        <ul>
+            <li>A<sub>x</sub> - Plus(+) labelled vertices in X set</li>
+            <li>A<sub>y</sub> - Plus(+) labelled vertices in Y set</li>
+            <li>B<sub>x</sub> - Star(*) labelled vertices in X set</li>
+            <li>B<sub>y</sub> - Star(*) labelled vertices in Y set</li>
+            <li>C<sub>x</sub> - U(∪) labelled vertices in X set</li>
+            <li>C<sub>y</sub> - U(∪) labelled vertices in Y set</li>
+        </ul>
+    </p>;
+    var step5Text3Imperfect = '';
 
     const [matching, setMatching] = useState(graphMatching);
     const [stepCount, setStepCount] = useState(0);
@@ -115,7 +141,6 @@ const Algo = () => {
     const [showE0, setShowE0] = useState(false);
     const [showOnHover, setShowOnHover] = useState(false);
     const [labelSet, setLabelSet] = useState('');
-    
     const nextButton = () => {
         // Perfect
         if (isPerfectMatching){
@@ -201,6 +226,12 @@ const Algo = () => {
                 setText2(step4Text2Imperfect)
                 setLabelSet(labelSetJSON)
             }
+            // Step 5
+            if (stepCount === 2){
+                setTitle(step5titleImperfect);
+                setText(step5Text1Imperfect)
+                setText2(step5Text2Imperfect)
+            }
             
         }
         setStepCount(stepCount+1)
@@ -284,11 +315,11 @@ const Algo = () => {
                 setLabelSet('')
             }
             // Step 4
-            // if (stepCount === 3){
-            //     setTitle(step4titleImperfect);
-            //     setText(step4Text1Imperfect)
-            //     setText2(step4Text2Imperfect)
-            // }
+            if (stepCount === 3){
+                setTitle(step4titleImperfect);
+                setText(step4Text1Imperfect)
+                setText2(step4Text2Imperfect)
+            }
         }
         
         setStepCount(stepCount-1)
