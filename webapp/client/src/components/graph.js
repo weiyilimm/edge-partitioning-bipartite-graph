@@ -251,76 +251,112 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
             
             var legendFontSize = "10px"
     
-            svgElement.append("circle").attr("cx",10).attr("cy",legendHeight).attr("r", 6).style("fill", "#f57e7e")
-            var e0 = svgElement.append("text").attr("x", 20).attr("y", legendHeight).text("No maximum matching (E0)").style("font-size", legendFontSize).attr("alignment-baseline","middle")
-            var e0JSONString = JSON.stringify(dataset.E0)
-            e0.on('mouseover', function(d, i) {
-                links.style('stroke-width', function(l) {
-                    if (e0JSONString.includes(JSON.stringify(l))){
-                        return 4
-                    }
-                    else{
-                        return 0.3
-                    }
-                })
-                links.style('stroke', function(l) {
-                    if (e0JSONString.includes(JSON.stringify(l))){
-                        return "#f57e7e"
-                    }
-                })
-            })
-            e0.on('mouseout', function() {
-                links.style('stroke-width', 1);
-                links.style('stroke', "black");
-                
-            });
+            svgElement.append("circle")
+                    .attr("cx",10)
+                    .attr("cy",legendHeight)
+                    .attr("r", 6)
+                    .style("fill", "#f57e7e")
+            svgElement.append("text")
+                    .attr("x", 20)
+                    .attr("y", legendHeight)
+                    .text("No maximum matching (E0)")
+                    .style("font-size", legendFontSize)
+                    .attr("alignment-baseline","middle")
             
-            svgElement.append("circle").attr("cx",180).attr("cy",legendHeight).attr("r", 6).style("fill", "#efb5a3")
-            var ew = svgElement.append("text").attr("x", 190).attr("y", legendHeight).text("Some maximum matching (EW)").style("font-size", legendFontSize).attr("alignment-baseline","middle")
-            var ewJSONString = JSON.stringify(dataset.EW)
-            ew.on('mouseover', function(d, i) {
-                links.style('stroke-width', function(l) {
-                    if (ewJSONString.includes(JSON.stringify(l))){
-                        return 4
-                    }
-                    else{
-                        return 0.3
-                    }
-                })
-                
-                links.style('stroke', function(l) {
-                    if (ewJSONString.includes(JSON.stringify(l))){
-                        return "#efb5a3"
-                    }
-                })
-            })
-            ew.on('mouseout', function() {
-                links.style('stroke-width', 1);
-                links.style('stroke', "black");
-            });
+            svgElement.append("circle")
+                    .attr("cx",180)
+                    .attr("cy",legendHeight)
+                    .attr("r", 6)
+                    .style("fill", "#efb5a3")
+            svgElement.append("text")
+                    .attr("x", 190)
+                    .attr("y", legendHeight)
+                    .text("Some maximum matching (EW)")
+                    .style("font-size", legendFontSize)
+                    .attr("alignment-baseline","middle")
     
-            svgElement.append("circle").attr("cx",360).attr("cy",legendHeight).attr("r", 6).style("fill", "#315f72")
-            var e1 = svgElement.append("text").attr("x", 370).attr("y", legendHeight).text("All maximum matching (E1)").style("font-size", legendFontSize).attr("alignment-baseline","middle")
-            var e1JSONString = JSON.stringify(dataset.E1)
-            e1.on('mouseover', function(d, i) {
-                links.style('stroke-width', function(l) {
-                    if (e1JSONString.includes(JSON.stringify(l))){
-                        return 4
-                    }
-                    else{
-                        return 0.3
-                    }
-                })
-                links.style('stroke', function(l) {
-                    if (e1JSONString.includes(JSON.stringify(l))){
-                        return "#315f72"
-                    }
-                })
-            })
-            e1.on('mouseout', function() {
-                links.style('stroke-width', 1);
-                links.style('stroke', "black");
-            });
+            svgElement.append("circle")
+                    .attr("cx",360)
+                    .attr("cy",legendHeight)
+                    .attr("r", 6)
+                    .style("fill", "#315f72")
+            svgElement.append("text")
+                    .attr("x", 370)
+                    .attr("y", legendHeight)
+                    .text("All maximum matching (E1)")
+                    .style("font-size", legendFontSize)
+                    .attr("alignment-baseline","middle")
+
+            var edgeSetLegendPosition = [0, 170, 340];
+            svgElement.selectAll()
+                    .data(edgeSetLegendPosition)
+                    .enter()
+                    .append('rect')
+                    .attr('x', d=>d)
+                    .attr('y', legendHeight-7.5)
+                    .attr('width', 170)
+                    .attr('height', 15)
+                    .attr('fill', '#c2c2c3')
+                    .attr('opacity', '0')
+                    .on('mouseover', function(d, i) {
+                        d3.select(this)
+                        .attr('opacity', '0.4')
+                        if (i === 0){
+                            var e0JSONString = JSON.stringify(dataset.E0)
+                            console.log(e0JSONString)
+                            links.style('stroke-width', function(l) {
+                                if (e0JSONString.includes(JSON.stringify(l))){
+                                    return 4
+                                }
+                                else{
+                                    return 0.3
+                                }
+                            })
+                            links.style('stroke', function(l) {
+                                if (e0JSONString.includes(JSON.stringify(l))){
+                                    return "#f57e7e"
+                                }
+                            })
+                        }
+                        if (i === 170){
+                            var ewJSONString = JSON.stringify(dataset.EW)
+                            links.style('stroke-width', function(l) {
+                                if (ewJSONString.includes(JSON.stringify(l))){
+                                    return 4
+                                }
+                                else{
+                                    return 0.3
+                                }
+                            })
+                            links.style('stroke', function(l) {
+                                if (ewJSONString.includes(JSON.stringify(l))){
+                                    return "#efb5a3"
+                                }
+                            })
+                        }
+                        if (i === 340){
+                            var e1JSONString = JSON.stringify(dataset.E1)
+                            links.style('stroke-width', function(l) {
+                                if (e1JSONString.includes(JSON.stringify(l))){
+                                    return 4
+                                }
+                                else{
+                                    return 0.3
+                                }
+                            })
+                            links.style('stroke', function(l) {
+                                if (e1JSONString.includes(JSON.stringify(l))){
+                                    return "#315f72"
+                                }
+                            })
+                        }
+                    })
+                    .on('mouseout', function(d, i) {
+                        d3.select(this)
+                            .attr('opacity', '0')
+                        links.style('stroke-width', 1)
+                        links.style('stroke', "black");
+                    })
 
         }
 
