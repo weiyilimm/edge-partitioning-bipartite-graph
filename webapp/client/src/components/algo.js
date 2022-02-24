@@ -99,7 +99,7 @@ const Algo = () => {
     // Step 4 Imerfect
     var step4titleImperfect = 'Step 4: Label vertices ';
     var step4Text1Imperfect = 'In an imperfect matching, vertices in X and Y set are labelled into plus(+), star(*), or u(∪).';
-    var step4Text2Imperfect = <p className='pseudocode'><span style={{"color": "#af00db"}}>label</span> exposed vertices in X as plus
+    var step4Text2Imperfect = <div className='pseudocode'><span style={{"color": "#af00db"}}>label</span> exposed vertices in X as plus
     <hr></hr><span style={{"color": "#af00db"}}>while</span> (there are vertices to be labelled as plus) <span style={{"color": "#af00db"}}>do</span>:
     <hr></hr>&nbsp;&nbsp;&nbsp;&nbsp;<span style={{"color": "#af00db"}}>label</span> unlabelled vertices in Y that is adjacent to a labelled vertex in X by an unmatched edge as plus
     <hr></hr>&nbsp;&nbsp;&nbsp;&nbsp;<span style={{"color": "#af00db"}}>label</span> unlabelled vertices in X that is adjacent to a labelled vertex in Y by an matched edge as plus
@@ -107,13 +107,13 @@ const Algo = () => {
     <hr></hr><span style={{"color": "#af00db"}}>while</span> (there are vertices to label as star) <span style={{"color": "#af00db"}}>do</span>:
     <hr></hr>&nbsp;&nbsp;&nbsp;&nbsp;<span style={{"color": "#af00db"}}>label</span> unlabelled vertices in X that is adjacent to a labelled vertex in Y by an unmatched edge as star
     <hr></hr>&nbsp;&nbsp;&nbsp;&nbsp;<span style={{"color": "#af00db"}}>label</span> unlabelled vertices in Y that is adjacent to a labelled vertex in X by an matched edge as star
-    <hr></hr><span style={{"color": "#af00db"}}>label</span> unlabelled vertices as U</p>;
+    <hr></hr><span style={{"color": "#af00db"}}>label</span> unlabelled vertices as U</div>;
     
     // Step 5 Imperfect
     var step5titleImperfect = 'Step 5: Partition vertices';
-    var step5Text1Imperfect = <p>In a bipartite graph G(X, Y, E), vertices can be partitioned into the <a href="https://en.wikipedia.org/wiki/Dulmage%E2%80%93Mendelsohn_decomposition" 
-    className='document'>Dulmage and Mendelsohn sets</a>.</p>
-    var step5Text2Imperfect = <p>Dulmage and Mendelsohn sets
+    var step5Text1Imperfect = <div>In a bipartite graph G(X, Y, E), vertices can be partitioned into the <a href="https://en.wikipedia.org/wiki/Dulmage%E2%80%93Mendelsohn_decomposition" 
+    className='document'>Dulmage and Mendelsohn sets</a>.</div>
+    var step5Text2Imperfect = <div>Dulmage and Mendelsohn sets
         <ul>
             <li>A<sub>x</sub> - Plus(+) labelled vertices in X set</li>
             <li>A<sub>y</sub> - Plus(+) labelled vertices in Y set</li>
@@ -122,7 +122,7 @@ const Algo = () => {
             <li>C<sub>x</sub> - U(∪) labelled vertices in X set</li>
             <li>C<sub>y</sub> - U(∪) labelled vertices in Y set</li>
         </ul>
-    </p>;
+    </div>;
     var step5Text3Imperfect = '';
 
     const [matching, setMatching] = useState(graphMatching);
@@ -141,6 +141,7 @@ const Algo = () => {
     const [showE0, setShowE0] = useState(false);
     const [showOnHover, setShowOnHover] = useState(false);
     const [labelSet, setLabelSet] = useState('');
+    const [showDMLegend, setShowDMLegend] = useState(false);
     const nextButton = () => {
         // Perfect
         if (isPerfectMatching){
@@ -231,6 +232,7 @@ const Algo = () => {
                 setTitle(step5titleImperfect);
                 setText(step5Text1Imperfect)
                 setText2(step5Text2Imperfect)
+                setShowDMLegend(true)
             }
             
         }
@@ -319,6 +321,7 @@ const Algo = () => {
                 setTitle(step4titleImperfect);
                 setText(step4Text1Imperfect)
                 setText2(step4Text2Imperfect)
+                setShowDMLegend(false)
             }
         }
         
@@ -350,16 +353,17 @@ const Algo = () => {
                         showE0={showE0}
                         showOnHover={showOnHover}
                         labelSet={labelSet}
+                        showDMsets={showDMLegend}
                         />
                     </div >
                     <div className='side-board col-md-6 col-xs-12'>
                         <h4 className='mt-4 mb-5'>{title}</h4>
-                        <p className='mb-5'>
+                        <div className='mb-5'>
                             {text}
-                        </p>
-                        <p className='mb-1 pb-4'>
+                        </div>
+                        <div className='mb-1 pb-4'>
                             {text2}
-                        </p>
+                        </div>
                         <p className='mb-5 pb-5' style={{ fontSize : "0.9rem"}}>
                             {text3}
                         </p>

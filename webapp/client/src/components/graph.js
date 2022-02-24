@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3'
 
-const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false, showLegend=false, showDirected=true, SCC=[], showE0=false, showEW=false, showE1=false, labelSet=""}) => {
+const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false, showLegend=false, showDirected=true, SCC=[], showE0=false, showEW=false, showE1=false, labelSet="", showDMsets=false}) => {
     const ref = useRef()
     // Convert json string into data set
     // Data set contains nodes and edges list
@@ -321,6 +321,7 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
                 links.style('stroke-width', 1);
                 links.style('stroke', "black");
             });
+
         }
 
         if (matching !== "") {
@@ -438,6 +439,126 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
                     return 'black'
                 }
             })
+        }
+
+        if (showDMsets === true){
+            var DMLegendHeight = height-20
+            if (left_count < 5 && right_count < 5){
+                DMLegendHeight = height+10
+            }
+            
+            var DMLegendFontSize = "10px"
+            var legendXposition = [20, 100, 180, 260, 340, 420];
+
+            svgElement.selectAll()
+                    .data(legendXposition)
+                    .enter()
+                    .append("circle")
+                    .attr("cx",d=>d)
+                    .attr("cy",DMLegendHeight)
+                    .attr("r", 6)
+                    .style("fill", "#f57e7e")
+            
+            var DMsets = [["A","x", 30], ["A","y", 110], ["B","x", 190], ["B","y", 270], ["C","x", 350], ["C","y", 430]]
+            svgElement.selectAll()
+                    .data(DMsets)
+                    .enter()
+                    .append("text")
+                    .attr("x",d=>d[2])
+                    .attr("y", DMLegendHeight)
+                    .text(d=>d[0])
+                    .style("font-size", DMLegendFontSize)
+                    .attr("alignment-baseline","middle")
+                    .append('tspan')
+                    .text(d=>d[1])
+                    .style('font-size', '0.4rem')
+                    .attr('dx', '.1em')
+                    .attr('dy', '.9em')
+            var legendBox = [10, 90, 170, 250, 330, 410];
+            svgElement.selectAll()
+                    .data(legendBox)
+                    .enter()
+                    .append('rect')
+                    .attr('x', d=>d)
+                    .attr('y', DMLegendHeight-7.5)
+                    .attr('width', 80)
+                    .attr('height', 15)
+                    .attr('fill', '#c2c2c3')
+                    .attr('opacity', '0')
+                    .on('mouseover', function(d, i) {
+                        d3.select(this)
+                        .attr('opacity', '0.4')
+                        links.style("visibility", "hidden")
+                        if (i === 10){
+                            nodes.style('visibility', function(l) {
+                                if (l.isLeft === true && l.label==="+"){
+                                    return "visible"
+                                }
+                                else{
+                                    return "hidden"
+                                }
+                            })
+                        }
+                        if (i === 90){
+                            nodes.style('visibility', function(l) {
+                                if (l.isLeft === false && l.label==="+"){
+                                    return "visible"
+                                }
+                                else{
+                                    return "hidden"
+                                }
+                            })
+                        }
+                        if (i === 170){
+                            nodes.style('visibility', function(l) {
+                                if (l.isLeft === true && l.label==="*"){
+                                    return "visible"
+                                }
+                                else{
+                                    return "hidden"
+                                }
+                            })
+                        }
+                        if (i === 250){
+                            nodes.style('visibility', function(l) {
+                                if (l.isLeft === false && l.label==="*"){
+                                    return "visible"
+                                }
+                                else{
+                                    return "hidden"
+                                }
+                            })
+                        }
+                        if (i === 330){
+                            nodes.style('visibility', function(l) {
+                                if (l.isLeft === true && l.label==="∪"){
+                                    return "visible"
+                                }
+                                else{
+                                    return "hidden"
+                                }
+                            })
+                        }
+                        if (i === 410){
+                            nodes.style('visibility', function(l) {
+                                if (l.isLeft === false && l.label==="∪"){
+                                    return "visible"
+                                }
+                                else{
+                                    return "hidden"
+                                }
+                            })
+                        }
+                    })
+                        // console.log(labelSet.star)
+                        // console.log(labelSet.plus)
+                        // console.log(labelSet.u)
+                    .on('mouseout', function() {
+                        d3.select(this)
+                        .attr('opacity', '0')
+                        links.style("visibility", "visible")
+                        nodes.style("visibility", "visible")
+                    })
         }
         
     }, [dataset]);
