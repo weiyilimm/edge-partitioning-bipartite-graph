@@ -3,7 +3,6 @@ import { Button } from 'react-bootstrap';
 import CreateGraph from './graph';
 import "./learn.css";
 import NavigationBar from './NavigationBar'
-import Footer from './footer'
 
 const Results = () => (
     <Button className="btn btn-lg btn-pink" role="button" href="/graph-initialisation/learn">Go</Button>
@@ -112,15 +111,16 @@ class Learn extends React.Component {
                     </div >
                     <div className='side-board col-md-6 col-xs-12 mh-100'>
                         <h4 className='mt-4 mb-5'>Step 1: Graph Initialisation</h4>
-                        <p className='mb-5 pb-5'>
+                        <p className='mb-5'>
                             The problem can be modelled in a bipartite graph G(X, Y, E) 
                             where X is the left vertex set, Y is the right vertex set, and E 
                             is the edge set. Left (X) and right (Y) vertices are two independent sets,
                             and all edges have one left endpoint vertex to right endpoint vertex.
                         </p>
                         <p>
-                            Please select the number of left and right vertices below.
+                            Please select the number of left and right vertices below. For best learning experience, 1 to 5 vertices are recommended.
                         </p>
+                        
                         <p style={{ fontSize : "0.8rem"}}>
                             Note: The edges are assigned randomly for the sake of simplicity.
                         </p>
@@ -162,10 +162,10 @@ class Learn extends React.Component {
                                 </select> 
                             </div>
                         </div>
-                        <div className='mt-3 pt-0'>
+                        <div className='mt-2 pt-0'>
                             <Button className="btn btn-lg btn-pink" role="button" onClick={this.generateVertices}>Generate Vertices</Button>
                         </div>
-                        <div className='mt-0 pt-0'>
+                        <div>
                             { this.state.showButton ? <Results /> : null }
                         </div>
                     </div>

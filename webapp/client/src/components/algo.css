@@ -16,6 +16,10 @@
     color: #2997ff
 }
 
+.side-board{
+    min-height: calc(100vh - 57.15px);
+}
+
 .pseudocode{
     font-family: 'Source Code Pro', monospace !important;
     background: #bdbdbd;
@@ -30,4 +34,14 @@ hr{
     padding: 0 !important;
     margin: 5px;
     width: 100% !important;
+}
+
+#prev{
+    position: sticky;
+    top: 600px;
+}
+
+#next{
+    position: sticky;
+    top: 600px;
 }

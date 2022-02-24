@@ -363,8 +363,8 @@ const Algo = () => {
                         <p className='mb-5 pb-5' style={{ fontSize : "0.9rem"}}>
                             {text3}
                         </p>
-                        <Button className="btn btn-md-pink" role="button" onClick={prevButton} disabled={prevButtonDisabled}>Prev</Button>
-                        <Button className="btn btn-md-pink" role="button" onClick={nextButton} disabled={nextButtonDisabled}>Next</Button>
+                        <Button id="prev" className="btn btn-md-pink" role="button" onClick={prevButton} disabled={prevButtonDisabled}>Prev</Button>
+                        <Button id="next" className="btn btn-md-pink" role="button" onClick={nextButton} disabled={nextButtonDisabled}>Next</Button>
                     </div>
                 
             </div>
