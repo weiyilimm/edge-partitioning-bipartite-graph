@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3'
 
-const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false, showLegend=false, showDirected=true, SCC=[], showE0=false, showEW=false, showE1=false, labelSet="", showDMsets=false}) => {
+const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false, showLegend=false, showDirected=true, SCC=[], showE0=false, showEW=false, showE1=false, labelSet=""}) => {
     const ref = useRef()
     // Convert json string into data set
     // Data set contains nodes and edges list
@@ -112,15 +112,15 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
                 element.y = spacing * (element.name+1) + origin; 
             }
         });
-        var height = (Math.max(left_count, right_count)) * 120
-        if (height <= 548){
-            height = 548;
+        var height = (Math.max(left_count, right_count)) * 115
+        if (height <= 460){
+            height = 460;
         }
         var svg = d3.select("svg");
         svg.selectAll("*").remove();
 
         const svgElement = d3.select(ref.current)
-                            .attr("viewBox", `0 0 500 ${height}`)
+                            .attr("viewBox", `0 30 500 ${height}`)
     
         svgElement.append("svg:defs")
                 .append("svg:marker")
@@ -246,7 +246,7 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
         if (showLegend === true){
             var legendHeight = height-20
             if (left_count < 5 && right_count < 5){
-                legendHeight = height-85
+                legendHeight = height+10
             }
             
             var legendFontSize = "10px"
@@ -438,10 +438,6 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
                     return 'black'
                 }
             })
-        }
-        
-        if (showDMsets == true){
-
         }
         
     }, [dataset]);
