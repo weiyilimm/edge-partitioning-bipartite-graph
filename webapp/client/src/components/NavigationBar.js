@@ -9,6 +9,7 @@ class NavigationBar extends Component{
             <div>
                 <Navbar bg="darkgrey" variant='dark' sticky='top' expand='lg' collapseOnSelect>
                     <Navbar.Brand className='ms-3'>
+                        <img src="/BipartiteLogoWhite.png" alt="Bipartite Logo" className='icon' href='/'></img>
                         <a className='logo' href='/'>Edge partitioning</a>
                     </Navbar.Brand>
                 <Navbar.Toggle className='me-2'/>

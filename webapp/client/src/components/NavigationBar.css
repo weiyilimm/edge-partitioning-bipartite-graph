@@ -11,3 +11,9 @@
     color: white;
     transition: 0.3s;
 }
+
+.icon{
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
