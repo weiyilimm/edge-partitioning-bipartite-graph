@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3'
 
-const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false, showLegend=false, showDirected=true, SCC=[], showE0=false, showEW=false, showE1=false, labelSet="", showDMsets=false}) => {
+const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false, showLegend=false, showDirected=true, SCC=[], showE0=false, showEW=false, showE1=false, showEprime=false, labelSet="", showDMsets=false}) => {
     const ref = useRef()
     // Convert json string into data set
     // Data set contains nodes and edges list
@@ -43,6 +43,7 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
         var e0 = []
         var ew = []
         var e1 = []
+        var ePrime = []
         Object.keys(partitionEdgesJSON).forEach(
             function(key) {
                 var edgeJSON = partitionEdgesJSON[key]
@@ -59,6 +60,9 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
                             if (key === "E1"){
                                 e1.push({"source": source, "target": r});
                             }
+                            if (key === "Eprime"){
+                                ePrime.push({"source": source, "target": r});
+                            }
                         })
                     }
                 )
@@ -70,7 +74,7 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
                 maxMatching.push({"source": key, "target": matchingJSON[key]});
             }
         )
-        return {"nodes": nodes, "edges": edges, "E0": e0, "EW": ew, "E1": e1, "maxMatching":maxMatching};
+        return {"nodes": nodes, "edges": edges, "E0": e0, "EW": ew, "E1": e1, "Eprime":ePrime, "maxMatching":maxMatching};
     }
 
     var dataset = (jsonGraphToDataset(jsonData, partitionEdges, matching));
@@ -477,6 +481,27 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
             })
         }
 
+        if (showEprime === true){
+            console.log(dataset)
+            var ePrimeString = JSON.stringify(dataset.Eprime)
+            links.style('stroke-width', function(l) {
+                if (ePrimeString.includes(JSON.stringify(l))){
+                    return 4
+                }
+                else{
+                    return 1
+                }
+            })
+            links.style('stroke', function(l) {
+                if (ePrimeString.includes(JSON.stringify(l))){
+                    return '#048900'
+                }
+                else{
+                    return 'black'
+                }
+            })
+        }
+
         if (showDMsets === true){
             var DMLegendHeight = height-20
             if (left_count < 5 && right_count < 5){
@@ -484,16 +509,16 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
             }
             
             var DMLegendFontSize = "10px"
-            var legendXposition = [20, 100, 180, 260, 340, 420];
+            var legendXposition = [[20, '#27bdb2'], [100, '#285fbd'], [180, '#288dbd'], [260, '#8528bd'], [340, '#bd2869'], [420, '#bd8028']];
 
             svgElement.selectAll()
                     .data(legendXposition)
                     .enter()
                     .append("circle")
-                    .attr("cx",d=>d)
+                    .attr("cx", d=>d[0])
                     .attr("cy",DMLegendHeight)
                     .attr("r", 6)
-                    .style("fill", "#f57e7e")
+                    .style("fill", d=>d[1])
             
             var DMsets = [["A","x", 30], ["A","y", 110], ["B","x", 190], ["B","y", 270], ["C","x", 350], ["C","y", 430]]
             svgElement.selectAll()
@@ -537,7 +562,7 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
                         }
                         if (i === 90){
                             nodes.style('visibility', function(l) {
-                                if (l.isLeft === false && l.label==="+"){
+                                if (l.isLeft === false && l.label==="*"){
                                     return "visible"
                                 }
                                 else{
@@ -557,7 +582,7 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
                         }
                         if (i === 250){
                             nodes.style('visibility', function(l) {
-                                if (l.isLeft === false && l.label==="*"){
+                                if (l.isLeft === false && l.label==="+"){
                                     return "visible"
                                 }
                                 else{

@@ -16,6 +16,9 @@ SCC_GLOBAL = ""
 L_PLUS_GLOBAL = set()
 L_STAR_GLOBAL = set()
 L_U_GLOBAL = set()
+E0_IMPERFECT_GLOBAL = set()
+EW_IMPERFECT_GLOBAL = set()
+E_PRIME_GLOBAL = set()
 # A function to partition edges from a perfect maximum matching into E0, EW, E1 set
 '''
 Parameter
@@ -317,6 +320,13 @@ def imperfect_matching_algorithm(x_to_y_graph):
     # The edges can form a perfect matching
     new_edges = edges - e_w - e_0
 
+    global E0_IMPERFECT_GLOBAL
+    global EW_IMPERFECT_GLOBAL
+    global E_PRIME_GLOBAL
+    E0_IMPERFECT_GLOBAL = e_0
+    EW_IMPERFECT_GLOBAL = e_w
+    E_PRIME_GLOBAL = new_edges
+
     # Create a new x_to_y_graph from the new edges
     x_to_y_graph_perfect = {}
     for x, y in new_edges:
@@ -471,20 +481,7 @@ def convert_set_to_dict(output):
         else:
             output_dict[i[0]].append(i[1])
     return output_dict
-
-# output = {}
-# e_0_dict = convert_set_to_dict(e_0)
-# e_w_dict = convert_set_to_dict(e_w)
-# e_1_dict = convert_set_to_dict(e_1)
-# output["E0"] = e_0_dict
-# output["EW"] = e_w_dict
-# output["E1"] = e_1_dict
-
-# json_graph = x_to_y_graph
-# for i in json_graph:
-#     json_graph[i] = (list(json_graph[i]))
-# print(json.dumps(json_graph))
-
+    
 partition_edges_json = {}
 e_0_dict = convert_set_to_dict(e_0)
 e_w_dict = convert_set_to_dict(e_w)
@@ -509,5 +506,16 @@ label_set_json['plus'] = (list(L_PLUS_GLOBAL))
 label_set_json['star'] = (list(L_STAR_GLOBAL))
 label_set_json['u'] = (list(L_U_GLOBAL))
 
-json_data = {"graph":graph_json,"matching":matching_json,"is_perfect":is_perfect, "partitionEdges":partition_edges_json, "SCC":SCC_GLOBAL, "labelSet":label_set_json}
+if (is_perfect == False):
+    imperfectPartitionEdges = {}
+    e_0_imperfect_dict = (convert_set_to_dict(E0_IMPERFECT_GLOBAL))
+    e_w_imperfect_dict = (convert_set_to_dict(EW_IMPERFECT_GLOBAL))
+    e_prime_dict = (convert_set_to_dict(E_PRIME_GLOBAL))
+    imperfectPartitionEdges['E0'] = e_0_imperfect_dict
+    imperfectPartitionEdges['EW'] = e_w_imperfect_dict
+    imperfectPartitionEdges['Eprime'] = e_prime_dict
+else:
+    imperfectPartitionEdges = ""
+
+json_data = {"graph":graph_json,"matching":matching_json,"is_perfect":is_perfect, "partitionEdges":partition_edges_json, "SCC":SCC_GLOBAL, "labelSet":label_set_json, "imperfectPartitionEdges":imperfectPartitionEdges}
 print(json.dumps(json_data))

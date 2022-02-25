@@ -11,6 +11,7 @@ const Algo = () => {
     var SCCArray = JSON.parse(localStorage.getItem('SCC'))
     var partitionEdgesJSON = JSON.parse(localStorage.getItem('partitionEdges'))
     var labelSetJSON = JSON.parse(localStorage.getItem('labelSet'))
+    var imperfectPartitionEdgesJSON = JSON.parse(localStorage.getItem('imperfectPartitionEdges'))
     // Step 2
     var step2title = 'Step 2: Finding maximum matching';
     var step2Text1 = 'A matching (M) in a Bipartite Graph is a set of edges, ' +
@@ -82,7 +83,7 @@ const Algo = () => {
     // Step 8 Perfect
     var step8titlePerfect = 'Step 8: Find "no maximum matching (E0)"';
     var step8Text1Perfect = 'A bipartite graph contains at least one maximum matching M. ' +
-                            '"no maximum matching (E0)" is a set of edges belonging ' +
+                            '"No maximum matching (E0)" is a set of edges belonging ' +
                             'to no maximum matching.' 
     var step8Text2Perfect = 'Every edge of the bipartite graph belongs to the ' +
                             '"no maximum matching (E0)" set if it does not belong to ' +
@@ -116,14 +117,50 @@ const Algo = () => {
     var step5Text2Imperfect = <div>Dulmage and Mendelsohn sets
         <ul>
             <li>A<sub>x</sub> - Plus(+) labelled vertices in X set</li>
-            <li>A<sub>y</sub> - Plus(+) labelled vertices in Y set</li>
+            <li>A<sub>y</sub> - Star(*) labelled vertices in Y set</li>
             <li>B<sub>x</sub> - Star(*) labelled vertices in X set</li>
-            <li>B<sub>y</sub> - Star(*) labelled vertices in Y set</li>
+            <li>B<sub>y</sub> - Plus(+) labelled vertices in Y set</li>
             <li>C<sub>x</sub> - U(∪) labelled vertices in X set</li>
             <li>C<sub>y</sub> - U(∪) labelled vertices in Y set</li>
         </ul>
     </div>;
-    var step5Text3Imperfect = '';
+
+    // Step 6 Imperfect
+    var step6titleImperfect = 'Step 6: Find "no maximum matching (E0)"';
+    var step6Text1Imperfect = 'A bipartite graph contains at least one maximum matching M. ' +
+                            '"No maximum matching (E0)" is a set of edges belonging ' +
+                            'to no maximum matching.' 
+    var step6Text2Imperfect = <div>
+                            In a bipartite graph G(X,Y,E), an edge from E set belongs to E0 if it also belongs to one of the following:
+                            <ul>
+                                <li>the cartesian product of B<sub>x</sub> and B<sub>y</sub> sets (B<sub>x</sub> × B<sub>y</sub>)</li>
+                                <li>the cartesian product of B<sub>x</sub> and C<sub>y</sub> sets (B<sub>x</sub> × C<sub>y</sub>)</li>
+                                <li>the cartesian product of C<sub>x</sub> and B<sub>y</sub> sets (C<sub>x</sub> × B<sub>y</sub>)</li>
+                            </ul>
+                            </div>;
+    var step6Text3Imperfect = 'Note: Edges from set E are shown as black lines; ' +
+                            'Edges from E0 are shown as green lines.';
+    // Step 7 Imperfect
+    var step7titleImperfect = 'Step 7: Find "some maximum matching (EW)"';
+    var step7Text1Imperfect = 'A bipartite graph contains at least one maximum matching M. ' +
+                            '"Some maximum matching (EW)" is a set of edges belonging ' +
+                            'to at least one maximum matching but not all of them.' 
+    var step7Text2Imperfect = <div>
+                            In a bipartite graph G(X,Y,E), an edge from E set belongs to EW if it also belongs to one of the following:
+                            <ul>
+                                <li>the cartesian product of A<sub>x</sub> and B<sub>y</sub> sets (A<sub>x</sub> × B<sub>y</sub>)</li>
+                                <li>the cartesian product of B<sub>x</sub> and A<sub>y</sub> sets (B<sub>x</sub> × A<sub>y</sub>)</li>
+                            </ul>
+                            </div>;
+    var step7Text3Imperfect = 'Note: Edges from set E are shown as black lines; ' +
+                            'Edges from EW are shown as green lines.';
+
+    // Step 8 Imperfect if no E PRIME
+    var step8titleImperfect = 'Step 8: Find "a perfect matching subgraph (G\')"';
+    var step8Text1Imperfect = 'G\'(X\',Y\',E\') is a subgraph of a bipartite graph G(X,Y,E) that has a perfect matching.' 
+    var step8Text2Imperfect = 'Every edge from E belongs to E\' if it does not belong to "no maximum matching (E0)" or "some maximum matching (EW)"';
+    var step8Text3Imperfect = 'Note: Edges from set E are shown as black lines; ' +
+                            'Edges from E\' are shown as green lines.';
 
     const [matching, setMatching] = useState(graphMatching);
     const [stepCount, setStepCount] = useState(0);
@@ -139,9 +176,12 @@ const Algo = () => {
     const [showEW, setShowEW] = useState(false);
     const [showE1, setShowE1] = useState(false);
     const [showE0, setShowE0] = useState(false);
+    const [showEprime, setShowEprime] = useState(false);
     const [showOnHover, setShowOnHover] = useState(false);
     const [labelSet, setLabelSet] = useState('');
     const [showDMLegend, setShowDMLegend] = useState(false);
+    const [partitionEdges, setPartitionEdges] = useState(partitionEdgesJSON);
+    
     const nextButton = () => {
         // Perfect
         if (isPerfectMatching){
@@ -234,6 +274,34 @@ const Algo = () => {
                 setText2(step5Text2Imperfect)
                 setShowDMLegend(true)
             }
+            // Step 6
+            if (stepCount === 3){
+                console.log(imperfectPartitionEdgesJSON)
+                setTitle(step6titleImperfect);
+                setText(step6Text1Imperfect)
+                setText2(step6Text2Imperfect)
+                setText3(step6Text3Imperfect)
+                setPartitionEdges(imperfectPartitionEdgesJSON)
+                setShowE0(true)
+            }
+            // Step 7
+            if (stepCount === 4){
+                setTitle(step7titleImperfect);
+                setText(step7Text1Imperfect)
+                setText2(step7Text2Imperfect)
+                setText3(step7Text3Imperfect)
+                setShowE0(false)
+                setShowEW(true)
+            }
+            // Step 8
+            if (stepCount === 5){
+                setTitle(step8titleImperfect);
+                setText(step8Text1Imperfect)
+                setText2(step8Text2Imperfect)
+                setText3(step8Text3Imperfect)
+                setShowEW(false)
+                setShowEprime(true)
+            }
             
         }
         setStepCount(stepCount+1)
@@ -323,6 +391,32 @@ const Algo = () => {
                 setText2(step4Text2Imperfect)
                 setShowDMLegend(false)
             }
+            // Step 5
+            if (stepCount === 4){
+                setTitle(step5titleImperfect);
+                setText(step5Text1Imperfect)
+                setText2(step5Text2Imperfect)
+                setText3(step2Text3)
+                setShowE0(false)
+            }
+            // Step 6
+            if (stepCount === 5){
+                setTitle(step6titleImperfect);
+                setText(step6Text1Imperfect)
+                setText2(step6Text2Imperfect)
+                setText3(step6Text3Imperfect)
+                setShowE0(true)
+                setShowEW(false)
+            }
+            // Step 7
+            if (stepCount === 6){
+                setTitle(step7titleImperfect);
+                setText(step7Text1Imperfect)
+                setText2(step7Text2Imperfect)
+                setText3(step7Text3Imperfect)
+                setShowEW(true)
+                setShowEprime(false)
+            }
         }
         
         setStepCount(stepCount-1)
@@ -343,7 +437,7 @@ const Algo = () => {
                     <div className='col-md-6 col-xs-12'>
                         <CreateGraph 
                         jsonData={graph} 
-                        partitionEdges={partitionEdgesJSON}
+                        partitionEdges={partitionEdges}
                         matching={matching}
                         showLegend={showLegend}
                         showDirected={showDirectedGraph}
@@ -354,6 +448,7 @@ const Algo = () => {
                         showOnHover={showOnHover}
                         labelSet={labelSet}
                         showDMsets={showDMLegend}
+                        showEprime={showEprime}
                         />
                     </div >
                     <div className='side-board col-md-6 col-xs-12'>
