@@ -19,6 +19,13 @@ L_U_GLOBAL = set()
 E0_IMPERFECT_GLOBAL = set()
 EW_IMPERFECT_GLOBAL = set()
 E_PRIME_GLOBAL = set()
+
+# the perfect matching inside imperfect matching
+IMPERFECT_PERFECT_MATCHING = set()
+E0_IMPERFECT_PERFECT = set()
+EW_IMPERFECT_PERFECT = set()
+E1_IMPERFECT_PERFECT = set()
+
 # A function to partition edges from a perfect maximum matching into E0, EW, E1 set
 '''
 Parameter
@@ -31,7 +38,7 @@ Return
     e_0, e_w, e1
 '''
 def perfect_matching_algorithm(x_to_y_graph):
-
+    
     # No maximum matching edges a.k.a 0-persistent edges
     # If one of these edges is in the matching then it can't be maximum matching
     e_0 = set()
@@ -44,6 +51,8 @@ def perfect_matching_algorithm(x_to_y_graph):
 
     # Find the maximum matching of the graph
     matching = HopcroftKarp(x_to_y_graph).maximum_matching()
+    global IMPERFECT_PERFECT_MATCHING
+    IMPERFECT_PERFECT_MATCHING = matching
     # Create a directed graph to find strongly connected components later
     directed_graph = {}
     # Create a directed graph from an undirected graph
@@ -97,7 +106,6 @@ def perfect_matching_algorithm(x_to_y_graph):
     
     # Adding edges into no maximum matching set - E0
     e_0 = edges - e_w - e_1
-
     return e_0, e_w, e_1
 
 # A function to partition edges from a imperfect maximum matching into E0, EW, E1 set
@@ -339,6 +347,14 @@ def imperfect_matching_algorithm(x_to_y_graph):
     # Compute the perfect matching algorithm for the new edges since they can be perfect matching
     # To speed up the execution time 
     e0_new, ew_new, e1_new = perfect_matching_algorithm(x_to_y_graph_perfect)
+
+    global E0_IMPERFECT_PERFECT 
+    global EW_IMPERFECT_PERFECT
+    global E1_IMPERFECT_PERFECT
+    E0_IMPERFECT_PERFECT = e0_new
+    EW_IMPERFECT_PERFECT = ew_new
+    E1_IMPERFECT_PERFECT = e1_new
+
     # Adding back the partitioned edges into the results
     e_0 = set.union(e_0, e0_new)
     e_w = set.union(e_w, ew_new)
@@ -506,6 +522,11 @@ label_set_json['plus'] = (list(L_PLUS_GLOBAL))
 label_set_json['star'] = (list(L_STAR_GLOBAL))
 label_set_json['u'] = (list(L_U_GLOBAL))
 
+imperfect_perfect_matching_ = {}
+for i in IMPERFECT_PERFECT_MATCHING:
+    if isinstance(i, str):
+        imperfect_perfect_matching_[i] = IMPERFECT_PERFECT_MATCHING[i]
+
 if (is_perfect == False):
     imperfectPartitionEdges = {}
     e_0_imperfect_dict = (convert_set_to_dict(E0_IMPERFECT_GLOBAL))
@@ -514,8 +535,19 @@ if (is_perfect == False):
     imperfectPartitionEdges['E0'] = e_0_imperfect_dict
     imperfectPartitionEdges['EW'] = e_w_imperfect_dict
     imperfectPartitionEdges['Eprime'] = e_prime_dict
+
+    imperfectPerfectPartitionEdges = {}
+    e_0_imperfect_perfect_dict = (convert_set_to_dict(E0_IMPERFECT_PERFECT))
+    e_w_imperfect_perfect_dict = (convert_set_to_dict(EW_IMPERFECT_PERFECT))
+    e_1_imperfect_perfect_dict = (convert_set_to_dict(E1_IMPERFECT_PERFECT))
+    imperfectPerfectPartitionEdges['E0'] = e_0_imperfect_perfect_dict
+    imperfectPerfectPartitionEdges['EW'] = e_w_imperfect_perfect_dict
+    imperfectPerfectPartitionEdges['E1'] = e_1_imperfect_perfect_dict
 else:
     imperfectPartitionEdges = ""
+    imperfectPerfectPartitionEdges = ""
+    IMPERFECT_PERFECT_MATCHING = ""
+    label_set_json = ""
 
-json_data = {"graph":graph_json,"matching":matching_json,"is_perfect":is_perfect, "partitionEdges":partition_edges_json, "SCC":SCC_GLOBAL, "labelSet":label_set_json, "imperfectPartitionEdges":imperfectPartitionEdges}
+json_data = {"graph":graph_json,"matching":matching_json,"is_perfect":is_perfect, "partitionEdges":partition_edges_json, "SCC":SCC_GLOBAL, "labelSet":label_set_json, "imperfectPartitionEdges":imperfectPartitionEdges,"imperfectPerfectMatching":imperfect_perfect_matching_, "imperfectPerfectPartitionEdges":imperfectPerfectPartitionEdges}
 print(json.dumps(json_data))

@@ -94,6 +94,8 @@ class Learn extends React.Component {
             localStorage.setItem('SCC', JSON.stringify(res.data.SCC));
             localStorage.setItem('labelSet', JSON.stringify(res.data.labelSet));
             localStorage.setItem('imperfectPartitionEdges', JSON.stringify(res.data.imperfectPartitionEdges));
+            localStorage.setItem('imperfectPerfectMatching', JSON.stringify(res.data.imperfectPerfectMatching));
+            localStorage.setItem('imperfectPerfectPartitionEdges', JSON.stringify(res.data.imperfectPerfectPartitionEdges));
             console.log(`statusCode: ${res.status}`)
             console.log(res.data.graph)
             this.setState({res:res.data.graph})
@@ -113,7 +115,6 @@ class Learn extends React.Component {
             document.getElementById("edges").selectedIndex = 0;
             }
           })
-        console.log(this.state.leftVertices)
         return (
             <div>
                 <NavigationBar />

@@ -12,6 +12,8 @@ const Algo = () => {
     var partitionEdgesJSON = JSON.parse(localStorage.getItem('partitionEdges'))
     var labelSetJSON = JSON.parse(localStorage.getItem('labelSet'))
     var imperfectPartitionEdgesJSON = JSON.parse(localStorage.getItem('imperfectPartitionEdges'))
+    var imperfectPerfectMatchingJSON = JSON.parse(localStorage.getItem('imperfectPerfectMatching'))
+    var imperfectPerfectPartitionEdges = JSON.parse(localStorage.getItem('imperfectPerfectPartitionEdges'))
     // Step 2
     var step2title = 'Step 2: Finding maximum matching';
     var step2Text1 = 'A matching (M) in a Bipartite Graph is a set of edges, ' +
@@ -181,10 +183,11 @@ const Algo = () => {
                             'Edges from matching of E\' are shown as green lines.';
 
     // Step 10 Imperfect if no E PRIME
-    var step10titleImperfect1 = 'Step 10: Congrats!';
-    var step10Text1Imperfect1 = 'You\'ve just learned the edge partitioning algorithm.'
-    var step10Text2Imperfect1 = 'Try hovering over the legend and see the partitioned edges set!';
-    var step10Text3Imperfect1 = ''
+    var step10titleImperfect1 = 'Step 10: Congrats! ';
+    var step10Text1Imperfect1 = 'You\'ve just partitioned the edges into three different set for a bipartite graph(X,Y,E) that has an imperfect matching.' 
+    var step10Text2Imperfect1 = 'Try hovering over the legend and see the partitioned edges set!'
+    var step10Text3Imperfect1 = <div>Learn another method of edge partitioning for <a href="/graph-initialisation" className='document'>PERFECT MATCHING</a> by setting same number of vertices in left(X) and right(Y) vertex sets, e.g. "4" and "4". </div>
+
 
     // Step 10 Imperfect if got E PRIME
     var step10titleImperfect2 = 'Step 10: Create a directed graph from an undirected graph';
@@ -192,7 +195,58 @@ const Algo = () => {
                                 'right vertex. If the edge is not in the matching, the right ' +
                                 'vertex goes to the left vertex.';
     var step10Text2Imperfect2 = '';
-    var step10Text3Imperfect2 = 'Note: Edges from set E are shown as black lines; Matching edges from set M are shown as green lines.'
+
+    // Step 11 Imperfect if got E PRIME
+    var step11titleImperfect2 = 'Step 11: Find strongly connected components';
+    var step11Text1Imperfect2 = 'A directed bipartite graph G(X, Y, E) is ' +
+                            'strongly connected if every vertex is ' +
+                            'reachable from every other vertex. A strongly ' +
+                            'connected component of G is a maximal strongly connected subgraph of G.';
+    var step11Text2Imperfect2 = <p>A <a href="https://epubs.siam.org/doi/epdf/10.1137/0201010" 
+                            className='document'>Tarjan's strongly connected components 
+                            algorithm</a> with a worst case running time of O(|X| + |Y| + |E|), 
+                            where |X| is the number of X vertices, |Y| is the number of Y vertices, 
+                            and |E| is the number of edges is used.</p>;
+    var step11Text3Imperfect2 = 'Note: Edges from set E\' are shown as black lines; ' +
+                            'Edges from SCC component are shown as green lines.';
+    
+    // Step 12 Imperfect if got E PRIME
+    var step12titleImperfect2 = 'Step 12: Find "some maximum matching (EW)"';
+    var step12Text1Imperfect2 = 'A bipartite graph contains at least one maximum matching M. ' +
+                            '"Some maximum matching (EW)" is a set of edges belonging ' +
+                            'to at least one maximum matching but not all of them.' 
+    var step12Text2Imperfect2 = <p>Every edge of the <b>strongly connected component</b> belongs to the 
+                            "some maximum matching (EW)" set.</p>;
+    var step12Text3Imperfect2 = 'Note: Edges from set E are shown as black lines; ' +
+                            'Edges from EW are shown as green lines.';
+
+    // Step 13 Perfect
+    var step13titleImperfect2 = 'Step 13: Find "all maximum matching (E1)"';
+    var step13Text1Imperfect2 = 'A bipartite graph contains at least one maximum matching M. ' +
+                            '"All maximum matching (E1)" is a set of edges belonging ' +
+                            'to all maximum matching.' 
+    var step13Text2Imperfect2 = <p>Every edge of the <b>matching</b> belongs to the 
+                            "all maximum matching (E1)" set if it does not belong to 
+                            "some maximum matching (EW)".</p>;
+    var step13Text3Imperfect2 = 'Note: Edges from set E are shown as black lines; ' +
+                            'Edges from E1 are shown as green lines.';
+    
+    // Step 14 Perfect
+    var step14titleImperfect2 = 'Step 14: Find "no maximum matching (E0)"';
+    var step14Text1Imperfect2 = 'A bipartite graph contains at least one maximum matching M. ' +
+                            '"No maximum matching (E0)" is a set of edges belonging ' +
+                            'to no maximum matching.' 
+    var step14Text2Imperfect2 = 'Every edge of the bipartite graph belongs to the ' +
+                            '"no maximum matching (E0)" set if it does not belong to ' +
+                            '"some maximum matching (EW)" and "all maximum matching (E1)".';
+    var step14Text3Imperfect2 = 'Note: Edges from set E are shown as black lines; ' +
+                            'Edges from E0 are shown as green lines.';
+
+    // Step 15 Imperfect if no E PRIME
+    var step15titleImperfect2 = 'Step 15: Congrats! ';
+    var step15Text1Imperfect2 = 'You\'ve just partitioned the edges into three different set for a bipartite graph(X,Y,E) that has an imperfect matching.' 
+    var step15Text2Imperfect2 = 'Try hovering over the legend and see the partitioned edges set!'
+    var step15Text3Imperfect2 = <div>Learn another method of edge partitioning for <a href="/graph-initialisation" className='document'>PERFECT MATCHING</a> by setting same number of vertices in left(X) and right(Y) vertex sets, e.g. "4" and "4". </div>
 
     const [matching, setMatching] = useState(graphMatching);
     const [stepCount, setStepCount] = useState(0);
@@ -372,10 +426,70 @@ const Algo = () => {
                     setLabelSet('')
                     setShowEprime(false)
                     setBipartiteGraph(imperfectPartitionEdgesJSON.Eprime)
+                    setMatching(imperfectPerfectMatchingJSON)
                 }
                 // Step 10
                 if (stepCount === 7){
+                    setTitle(step10titleImperfect2);
+                    setText(step10Text1Imperfect2)
+                    setText2(step10Text2Imperfect2)
+                    setShowDirectedGraph(true)
                 }
+                // Step 11
+                if (stepCount === 8){
+                    setTitle(step11titleImperfect2);
+                    setText(step11Text1Imperfect2)
+                    setText2(step11Text2Imperfect2)
+                    setText3(step11Text3Imperfect2)
+                    setShowDirectedGraph(false)
+                    setMatching('')
+                    setSCC(SCCArray)
+                }
+                // Step 12
+                if (stepCount === 9){
+                    setTitle(step12titleImperfect2);
+                    setText(step12Text1Imperfect2)
+                    setText2(step12Text2Imperfect2)
+                    setText3(step12Text3Imperfect2)
+                    setPartitionEdges(imperfectPerfectPartitionEdges)
+                    setSCC([])
+                    setShowEW(true)
+                }
+
+                // Step 13
+                if (stepCount === 10){
+                    setTitle(step13titleImperfect2);
+                    setText(step13Text1Imperfect2)
+                    setText2(step13Text2Imperfect2)
+                    setText3(step13Text3Imperfect2)
+                    setShowEW(false)
+                    setShowE1(true)
+                }
+
+                // Step 14
+                if (stepCount === 11){
+                    setTitle(step14titleImperfect2);
+                    setText(step14Text1Imperfect2)
+                    setText2(step14Text2Imperfect2)
+                    setText3(step14Text3Imperfect2)
+                    setShowE1(false)
+                    setShowE0(true)
+                }
+
+                // Step 15
+                if (stepCount === 12){
+                    setTitle(step15titleImperfect2);
+                    setText(step15Text1Imperfect2)
+                    setText2(step15Text2Imperfect2)
+                    setText3(step15Text3Imperfect2)
+                    setShowE0(false)
+                    setShowLegend(true)
+                    setShowOnHover(true)
+                    setNextButtonDisabled('disabled')
+                    setBipartiteGraph(graph)
+                    setPartitionEdges(partitionEdgesJSON)
+                }
+
             } 
         }
         setStepCount(stepCount+1)
@@ -504,6 +618,7 @@ const Algo = () => {
                 setShowDMLegend(true)
                 setLabelSet(labelSetJSON)
                 setBipartiteGraph(graph)
+                setMatching('')
             }
 
             if (Object.keys(imperfectPartitionEdgesJSON.Eprime).length === 0){
@@ -519,13 +634,68 @@ const Algo = () => {
                 }
             }
             else{
+                // Step 9
                 if (stepCount === 8){
                     setTitle(step9titleImperfect2);
                     setText(step9Text1Imperfect2)
                     setText2(step9Text2Imperfect2)
                     setText3(step9Text3Imperfect2)
+                    setShowDirectedGraph(false)
                 }
+                // Step 10
+                if (stepCount === 9){
+                    setTitle(step10titleImperfect2);
+                    setText(step10Text1Imperfect2)
+                    setText2(step10Text2Imperfect2)
+                    setText3(step9Text3Imperfect2)
+                    setShowDirectedGraph(true)
+                    setMatching(imperfectPerfectMatchingJSON)
+                    setSCC([])
+                }
+                // Step 11
+                if (stepCount === 10){
+                    setTitle(step11titleImperfect2);
+                    setText(step11Text1Imperfect2)
+                    setText2(step11Text2Imperfect2)
+                    setText3(step11Text3Imperfect2)
+                    setSCC(SCCArray)
+                    setPartitionEdges(imperfectPartitionEdgesJSON)
+                    setShowEW(false)
+                }
+                // Step 12
+                if (stepCount === 11){
+                    setTitle(step12titleImperfect2);
+                    setText(step12Text1Imperfect2)
+                    setText2(step12Text2Imperfect2)
+                    setText3(step12Text3Imperfect2)
+                    setShowEW(true)
+                    setShowE1(false)
+                }
+                // Step 13
+                if (stepCount === 12){
+                    setTitle(step13titleImperfect2);
+                    setText(step13Text1Imperfect2)
+                    setText2(step13Text2Imperfect2)
+                    setText3(step13Text3Imperfect2)
+                    setShowE1(true)
+                    setShowE0(false)
+                }
+                // Step 14
+                if (stepCount === 13){
+                    setTitle(step14titleImperfect2);
+                    setText(step14Text1Imperfect2)
+                    setText2(step14Text2Imperfect2)
+                    setText3(step14Text3Imperfect2)
+                    setPartitionEdges(imperfectPerfectPartitionEdges)
+                    setShowE0(true)
+                    setShowLegend(false)
+                    setShowOnHover(false)
+                    setNextButtonDisabled('')
+                    setBipartiteGraph(imperfectPartitionEdgesJSON.Eprime)
+                }
+                
             }
+            
         }
         setStepCount(stepCount-1)
     }
