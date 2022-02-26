@@ -307,7 +307,6 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
                         .attr('opacity', '0.4')
                         if (i === 0){
                             var e0JSONString = JSON.stringify(dataset.E0)
-                            console.log(e0JSONString)
                             links.style('stroke-width', function(l) {
                                 if (e0JSONString.includes(JSON.stringify(l))){
                                     return 4
@@ -482,7 +481,6 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
         }
 
         if (showEprime === true){
-            console.log(dataset)
             var ePrimeString = JSON.stringify(dataset.Eprime)
             links.style('stroke-width', function(l) {
                 if (ePrimeString.includes(JSON.stringify(l))){
@@ -611,9 +609,6 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
                             })
                         }
                     })
-                        // console.log(labelSet.star)
-                        // console.log(labelSet.plus)
-                        // console.log(labelSet.u)
                     .on('mouseout', function() {
                         d3.select(this)
                         .attr('opacity', '0')

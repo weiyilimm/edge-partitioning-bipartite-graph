@@ -155,12 +155,43 @@ const Algo = () => {
     var step7Text3Imperfect = 'Note: Edges from set E are shown as black lines; ' +
                             'Edges from EW are shown as green lines.';
 
-    // Step 8 Imperfect if no E PRIME
+    // Step 8 Imperfect 
     var step8titleImperfect = 'Step 8: Find "a perfect matching subgraph (G\')"';
-    var step8Text1Imperfect = 'G\'(X\',Y\',E\') is a subgraph of a bipartite graph G(X,Y,E) that has a perfect matching.' 
-    var step8Text2Imperfect = 'Every edge from E belongs to E\' if it does not belong to "no maximum matching (E0)" or "some maximum matching (EW)"';
+    var step8Text1Imperfect = <div>G'(C<sub>x</sub>∪C<sub>y</sub>,E') is a subgraph of a bipartite graph G(X,Y,E) that has a perfect matching, 
+                            where C<sub>x</sub> is a set that contains U(∪) labelled vertices in X set, 
+                            C<sub>y</sub> is a set that contains U(∪) labelled vertices in Y set, and E' is the cardinality product of C<sub>x</sub> and C<sub>y</sub>.</div>
+    var step8Text2Imperfect = 'In other words, an edge belongs to E\' if it does not belong to "no maximum matching (E0)" or "some maximum matching (EW)".';
     var step8Text3Imperfect = 'Note: Edges from set E are shown as black lines; ' +
                             'Edges from E\' are shown as green lines.';
+
+    // Step 9 Imperfect if no E PRIME
+    var step9titleImperfect1 = 'Step 9: Find "all maximum matching (E1)"';
+    var step9Text1Imperfect1 = 'A bipartite graph contains at least one maximum matching M. ' +
+                            '"All maximum matching (E1)" is a set of edges belonging ' +
+                            'to all maximum matching.' 
+    var step9Text2Imperfect1 = 'None of the edge belongs to "all maximum matching (E1)" if E\' is an empty set.';
+    var step9Text3Imperfect1 = 'Note: Edges from set E are shown as black lines; ' +
+                            'Edges from E1 are shown as green lines.';
+    
+    // Step 9 Imperfect if got E PRIME
+    var step9titleImperfect2 = <div>Step 9: Plot the perfect matching sub graph G'(C<sub>x</sub>∪C<sub>y</sub>,E')</div>;
+    var step9Text1Imperfect2 = <div>G'(C<sub>x</sub>∪C<sub>y</sub>,E') is a sub graph of a bipartite graph G(X,Y,E) that has perfect matching. It can be further partitioned into three edge sets: E0, EW, and E1.</div>
+    var step9Text2Imperfect2 = '';
+    var step9Text3Imperfect2 = 'Note: Edges from set E are shown as black lines; ' +
+                            'Edges from E\' are shown as green lines.';
+
+    // Step 10 Imperfect if no E PRIME
+    var step10titleImperfect1 = 'Step 10: Congrats!';
+    var step10Text1Imperfect1 = 'You\'ve just learned the edge partitioning algorithm.'
+    var step10Text2Imperfect1 = 'Try hovering over the legend and see the partitioned edges set!';
+    var step10Text3Imperfect1 = ''
+
+    // Step 10 Imperfect if got E PRIME
+    var step10titleImperfect2 = 'Step 10: Congrats!';
+    var step10Text1Imperfect2 = 'You\'ve just learned the edge partitioning algorithm.'
+    var step10Text2Imperfect2 = 'Try hovering over the legend and see the partitioned edges set!';
+    var step10Text3Imperfect2 = ''
+
 
     const [matching, setMatching] = useState(graphMatching);
     const [stepCount, setStepCount] = useState(0);
@@ -181,6 +212,7 @@ const Algo = () => {
     const [labelSet, setLabelSet] = useState('');
     const [showDMLegend, setShowDMLegend] = useState(false);
     const [partitionEdges, setPartitionEdges] = useState(partitionEdgesJSON);
+    const [bipartiteGraph, setBipartiteGraph] = useState(graph);
     
     const nextButton = () => {
         // Perfect
@@ -276,13 +308,13 @@ const Algo = () => {
             }
             // Step 6
             if (stepCount === 3){
-                console.log(imperfectPartitionEdgesJSON)
                 setTitle(step6titleImperfect);
                 setText(step6Text1Imperfect)
                 setText2(step6Text2Imperfect)
                 setText3(step6Text3Imperfect)
                 setPartitionEdges(imperfectPartitionEdgesJSON)
                 setShowE0(true)
+                setMatching('')
             }
             // Step 7
             if (stepCount === 4){
@@ -303,6 +335,43 @@ const Algo = () => {
                 setShowEprime(true)
             }
             
+            // If prime is 0 means no need perfect algo and ends
+            if (Object.keys(imperfectPartitionEdgesJSON.Eprime).length === 0){
+                // Step 9
+                if (stepCount === 6){
+                    setTitle(step9titleImperfect1);
+                    setText(step9Text1Imperfect1)
+                    setText2(step9Text2Imperfect1)
+                    setText3(step9Text3Imperfect1)
+                    setShowEprime(false)
+                    setShowE1(true)
+                }
+                // Step 10
+                if (stepCount === 7){
+                    setTitle(step10titleImperfect1);
+                    setText(step10Text1Imperfect1)
+                    setText2(step10Text2Imperfect1)
+                    setText3(step10Text3Imperfect1)
+                    setShowE1(false)
+                    setShowLegend(true)
+                    setShowOnHover(true)
+                    setNextButtonDisabled('disabled')
+                    setShowDMLegend(false)
+                    setLabelSet('')
+                }
+            }
+            else{
+                // Step 9
+                if (stepCount === 6){
+                    setTitle(step9titleImperfect2);
+                    setText(step9Text1Imperfect2)
+                    setText2(step9Text2Imperfect2)
+                    setText3(step9Text3Imperfect2)
+                    setShowDMLegend(false)
+                    setLabelSet('')
+                    setBipartiteGraph(imperfectPartitionEdgesJSON.Eprime)
+                }
+            } 
         }
         setStepCount(stepCount+1)
     }
@@ -398,6 +467,7 @@ const Algo = () => {
                 setText2(step5Text2Imperfect)
                 setText3(step2Text3)
                 setShowE0(false)
+                setMatching(graphMatching)
             }
             // Step 6
             if (stepCount === 5){
@@ -406,7 +476,7 @@ const Algo = () => {
                 setText2(step6Text2Imperfect)
                 setText3(step6Text3Imperfect)
                 setShowE0(true)
-                setShowEW(false)
+                setShowEW(false) 
             }
             // Step 7
             if (stepCount === 6){
@@ -417,8 +487,41 @@ const Algo = () => {
                 setShowEW(true)
                 setShowEprime(false)
             }
+
+            // Step 8
+            if (stepCount === 7){
+                setTitle(step8titleImperfect);
+                setText(step8Text1Imperfect)
+                setText2(step8Text2Imperfect)
+                setText3(step8Text3Imperfect)
+                setShowEprime(true)
+                setShowE1(false)
+                setShowDMLegend(true)
+                setLabelSet(labelSetJSON)
+                setBipartiteGraph(graph)
+            }
+
+            if (Object.keys(imperfectPartitionEdgesJSON.Eprime).length === 0){
+                // Step 9
+                if (stepCount === 8){
+                    setTitle(step9titleImperfect1);
+                    setText(step9Text1Imperfect1)
+                    setText2(step9Text2Imperfect1)
+                    setText3(step9Text3Imperfect1)
+                    setShowLegend(false)
+                    setShowOnHover(false)
+                    setNextButtonDisabled('')
+                }
+            }
+            else{
+                if (stepCount === 8){
+                    setTitle(step9titleImperfect2);
+                    setText(step9Text1Imperfect2)
+                    setText2(step9Text2Imperfect2)
+                    setText3(step9Text3Imperfect2)
+                }
+            }
         }
-        
         setStepCount(stepCount-1)
     }
     // document.addEventListener('keyup', function(event){
@@ -436,7 +539,7 @@ const Algo = () => {
             <div className='container-fluid row'>
                     <div className='col-md-6 col-xs-12'>
                         <CreateGraph 
-                        jsonData={graph} 
+                        jsonData={bipartiteGraph} 
                         partitionEdges={partitionEdges}
                         matching={matching}
                         showLegend={showLegend}

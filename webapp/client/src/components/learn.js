@@ -39,26 +39,31 @@ class Learn extends React.Component {
         // Find the max number of edges
         var max = leftNumber * rightNumber;    
         // Empty the array before pushing new values
-        this.state.edgesList = []
+        var edgeListArray = []
+        this.setState({edgesList :edgeListArray})
         // Set the edge state to minimum when the dropdown changes
         this.setState({edges:min});
         for (let i = min; i <= max; i++) {
-            this.state.edgesList.push(i)
+            edgeListArray.push(i)
         }
+        this.setState({edgesList :edgeListArray})
     }
     
     // Everything same as above function just the opposite
     handleChangeRight = (e) => {
+        console.log(this.state.edgesList)
         this.setState({rightVertices:e.target.value});
         var leftNumber = this.state.leftVertices;
         var rightNumber = e.target.value;
         var min = Math.max(leftNumber, rightNumber);
         var max = leftNumber * rightNumber;    
-        this.state.edgesList = []
+        var edgeListArray = []
+        this.setState({edgesList :edgeListArray})
         this.setState({edges:min});
         for (let i = min; i <= max; i++) {
-            this.state.edgesList.push(i)
+            edgeListArray.push(i)
         }
+        this.setState({edgesList :edgeListArray})
     }
 
     // Update the state of edges 
@@ -96,10 +101,19 @@ class Learn extends React.Component {
             console.log(`statusCode: ${error.response.status}`)
             console.log(`Bad Request`)
         })
-        this.state.showButton = true;
+        this.setState({showButton :true})
     }
 
     render() {
+        window.addEventListener( "pageshow", function ( event ) {
+            var historyTraversal = event.persisted || ( typeof window.performance != "undefined" && window.performance.navigation.type === 2 );
+            if ( historyTraversal ) {
+            document.getElementById("left-vertices").selectedIndex = 0;
+            document.getElementById("right-vertices").selectedIndex = 0;
+            document.getElementById("edges").selectedIndex = 0;
+            }
+          })
+        console.log(this.state.leftVertices)
         return (
             <div>
                 <NavigationBar />
@@ -128,7 +142,7 @@ class Learn extends React.Component {
                         <div className="form-group">
                             <label>Number of left vertices</label>
                             <div className="col-sm-6 col-md-3">
-                                <select className="form-control" value={this.state.leftVertices} onChange={this.handleChangeLeft}>
+                                <select id="left-vertices" className="form-control" value={this.state.leftVertices} onChange={this.handleChangeLeft}>
                                     <option>1</option>
                                     <option>2</option>
                                     <option>3</option>
@@ -142,7 +156,7 @@ class Learn extends React.Component {
                             </div>
                             <label>Number of right vertices</label>
                             <div className="col-sm-6 col-md-3">
-                                <select className="form-control" value={this.state.rightVertices} onChange={this.handleChangeRight}>
+                                <select id="right-vertices" className="form-control" value={this.state.rightVertices} onChange={this.handleChangeRight}>
                                     <option>1</option>
                                     <option>2</option>
                                     <option>3</option>
@@ -156,7 +170,7 @@ class Learn extends React.Component {
                             </div>
                             <label>Number of edges</label>
                             <div className="col-sm-6 col-md-3">
-                                <select className="form-control" value={this.state.edges} onChange={this.handleChangeEdges}>
+                                <select id="edges" className="form-control" value={this.state.edges} onChange={this.handleChangeEdges}>
                                 {this.state.edgesList.map(edge => (
                                     <option key = {edge}>{edge}</option>
                                 ))}
