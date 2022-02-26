@@ -130,7 +130,9 @@ class Learn extends React.Component {
                             The problem can be modelled in a bipartite graph G(X, Y, E) 
                             where X is the left vertex set, Y is the right vertex set, and E 
                             is the edge set. Left (X) and right (Y) vertices are two independent sets,
-                            and all edges have one left endpoint vertex to right endpoint vertex.
+                            and all edges have one left endpoint vertex to right endpoint vertex. <br></br>
+                            There are two methods to partition edges: one for the same number of vertices in X and Y, 
+                            one for the different number of vertices in X and Y. 
                         </p>
                         <p>
                             Please select the number of left and right vertices below. For best learning experience, 1 to 5 vertices are recommended.

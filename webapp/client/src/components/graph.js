@@ -90,6 +90,8 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
             var labelUSet = labelSet.u
         }
         
+        var xPositionArray = [];
+        var yPositionArray = [];
         // Initialise the x and y position of each node 
         (dataset.nodes).forEach((element, index, array) => {
             if (labelSet !== ""){
@@ -107,19 +109,24 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
             if (element.isLeft)
             {
                 left_count += 1;
+                var xPosition = parseInt((element.name).replace("x_", ""))
+                xPositionArray.push(xPosition)
                 element.x = 100;
-                element.y = spacing * left_count + origin;
+                element.y = spacing * xPosition + origin;
             }
             else{
                 right_count += 1;
+                yPositionArray.push(element.name+1)
                 element.x = 400;
                 element.y = spacing * (element.name+1) + origin; 
             }
         });
-        var height = (Math.max(left_count, right_count)) * 115
+
+        var height = (Math.max(Math.max(...xPositionArray), Math.max(...yPositionArray))) * 115
         if (height <= 460){
             height = 460;
         }
+
         var svg = d3.select("svg");
         svg.selectAll("*").remove();
 

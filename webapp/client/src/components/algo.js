@@ -64,8 +64,8 @@ const Algo = () => {
     var step6Text1Perfect = 'A bipartite graph contains at least one maximum matching M. ' +
                             '"Some maximum matching (EW)" is a set of edges belonging ' +
                             'to at least one maximum matching but not all of them.' 
-    var step6Text2Perfect = 'Every edge of the strongly connected component belongs to the ' +
-                            '"some maximum matching (EW)" set.';
+    var step6Text2Perfect = <p>Every edge of the <b>strongly connected component</b> belongs to the 
+                            "some maximum matching (EW)" set.</p>;
     var step6Text3Perfect = 'Note: Edges from set E are shown as black lines; ' +
                             'Edges from EW are shown as green lines.';
 
@@ -74,9 +74,9 @@ const Algo = () => {
     var step7Text1Perfect = 'A bipartite graph contains at least one maximum matching M. ' +
                             '"All maximum matching (E1)" is a set of edges belonging ' +
                             'to all maximum matching.' 
-    var step7Text2Perfect = 'Every edge of the matching belongs to the ' +
-                            '"all maximum matching (E1)" set if it does not belong to ' +
-                            '"some maximum matching (EW)".';
+    var step7Text2Perfect = <p>Every edge of the <b>matching</b> belongs to the 
+                            "all maximum matching (E1)" set if it does not belong to 
+                            "some maximum matching (EW)".</p>;
     var step7Text3Perfect = 'Note: Edges from set E are shown as black lines; ' +
                             'Edges from E1 are shown as green lines.';
     
@@ -93,9 +93,9 @@ const Algo = () => {
     
     // Step 9 Perfect
     var step9titlePerfect = 'Step 9: Congrats! ';
-    var step9Text1Perfect = 'You\'ve just learned the edge partitioning algorithm.' 
-    var step9Text2Perfect = 'Try hovering over the legend and see the partitioned edges set!';
-    var step9Text3Perfect = '';
+    var step9Text1Perfect = 'You\'ve just partitioned the edges into three different set for a bipartite graph(X,Y,E) that has a perfect matching.' 
+    var step9Text2Perfect = 'Try hovering over the legend and see the partitioned edges set!'
+    var step9Text3Perfect = <div>Learn another method of edge partitioning for <a href="/graph-initialisation" className='document'>IMPERFECT MATCHING</a> by setting different number of vertices in left(X) and right(Y) vertex sets, e.g. "3" and "4". </div>
 
     // Step 4 Imerfect
     var step4titleImperfect = 'Step 4: Label vertices ';
@@ -174,11 +174,11 @@ const Algo = () => {
                             'Edges from E1 are shown as green lines.';
     
     // Step 9 Imperfect if got E PRIME
-    var step9titleImperfect2 = <div>Step 9: Plot the perfect matching sub graph G'(C<sub>x</sub>∪C<sub>y</sub>,E')</div>;
-    var step9Text1Imperfect2 = <div>G'(C<sub>x</sub>∪C<sub>y</sub>,E') is a sub graph of a bipartite graph G(X,Y,E) that has perfect matching. It can be further partitioned into three edge sets: E0, EW, and E1.</div>
+    var step9titleImperfect2 = <div>Step 9: Plot the sub graph G'(C<sub>x</sub>∪C<sub>y</sub>,E')</div>;
+    var step9Text1Imperfect2 = <div>G'(C<sub>x</sub>∪C<sub>y</sub>,E') is a sub graph of a bipartite graph G(X,Y,E) that has a perfect matching. It can be further partitioned into three edge sets: E0, EW, and E1.</div>
     var step9Text2Imperfect2 = '';
-    var step9Text3Imperfect2 = 'Note: Edges from set E are shown as black lines; ' +
-                            'Edges from E\' are shown as green lines.';
+    var step9Text3Imperfect2 = 'Note: Edges from set E\' are shown as black lines; ' +
+                            'Edges from matching of E\' are shown as green lines.';
 
     // Step 10 Imperfect if no E PRIME
     var step10titleImperfect1 = 'Step 10: Congrats!';
@@ -187,11 +187,12 @@ const Algo = () => {
     var step10Text3Imperfect1 = ''
 
     // Step 10 Imperfect if got E PRIME
-    var step10titleImperfect2 = 'Step 10: Congrats!';
-    var step10Text1Imperfect2 = 'You\'ve just learned the edge partitioning algorithm.'
-    var step10Text2Imperfect2 = 'Try hovering over the legend and see the partitioned edges set!';
-    var step10Text3Imperfect2 = ''
-
+    var step10titleImperfect2 = 'Step 10: Create a directed graph from an undirected graph';
+    var step10Text1Imperfect2 = 'If the edge is in the matching, the left vertex goes to the ' +
+                                'right vertex. If the edge is not in the matching, the right ' +
+                                'vertex goes to the left vertex.';
+    var step10Text2Imperfect2 = '';
+    var step10Text3Imperfect2 = 'Note: Edges from set E are shown as black lines; Matching edges from set M are shown as green lines.'
 
     const [matching, setMatching] = useState(graphMatching);
     const [stepCount, setStepCount] = useState(0);
@@ -369,7 +370,11 @@ const Algo = () => {
                     setText3(step9Text3Imperfect2)
                     setShowDMLegend(false)
                     setLabelSet('')
+                    setShowEprime(false)
                     setBipartiteGraph(imperfectPartitionEdgesJSON.Eprime)
+                }
+                // Step 10
+                if (stepCount === 7){
                 }
             } 
         }
@@ -494,8 +499,8 @@ const Algo = () => {
                 setText(step8Text1Imperfect)
                 setText2(step8Text2Imperfect)
                 setText3(step8Text3Imperfect)
-                setShowEprime(true)
                 setShowE1(false)
+                setShowEprime(true)
                 setShowDMLegend(true)
                 setLabelSet(labelSetJSON)
                 setBipartiteGraph(graph)

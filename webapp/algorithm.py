@@ -340,9 +340,9 @@ def imperfect_matching_algorithm(x_to_y_graph):
     # To speed up the execution time 
     e0_new, ew_new, e1_new = perfect_matching_algorithm(x_to_y_graph_perfect)
     # Adding back the partitioned edges into the results
-    e_0.update(e0_new)
-    e_w.update(ew_new)
-    e_1.update(e1_new)
+    e_0 = set.union(e_0, e0_new)
+    e_w = set.union(e_w, ew_new)
+    e_1 = set.union(e_1, e1_new)
 
     return e_0, e_w, e_1
 
@@ -461,7 +461,7 @@ right_vertices_num = int(sys.argv[2])
 # Number of edges
 edges_num = int(sys.argv[3])
 # x_to_y_graph = ast.literal_eval(sys.argv[1])
-x_to_y_graph = generate_bipartite_graph(left_vertices_num,right_vertices_num,edges_num)
+x_to_y_graph = generate_bipartite_graph(left_vertices_num, right_vertices_num, edges_num)
 matching = HopcroftKarp(x_to_y_graph).maximum_matching()
 is_perfect = True
 for i in x_to_y_graph:
