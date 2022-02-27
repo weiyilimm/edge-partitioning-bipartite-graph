@@ -33,12 +33,12 @@ const Algo = () => {
     var step3Text1 = 'A vertex is matched if it is the endpoint of a matched edge; ' +
                     'otherwise, it is exposed. The maximum matching is perfect if ' +
                     'all the vertices are matched; otherwise, it is imperfect.';
-    var step3Text2Perfect = 'The bipartite graph shows that all vertices in X and Y are ' +
-                            'connected with a matched edge (green line). Thus, ' +
-                            'the graph is a perfect matching.';
-    var step3Text2Imperfect = 'There is an exposed vertex, the vertex that is not' +
-                            'connected to another set by a matched edge. Thus, ' +
-                            'the graph is an imperfect matching.';
+    var step3Text2Perfect = <p>The bipartite graph shows that all vertices in X and Y are 
+                            connected with a matched edge (green line). Thus, 
+                            the graph is a <b>perfect matching</b>.</p>;
+    var step3Text2Imperfect = <p>The highlighter box contains an exposed vertex, the vertex that is not 
+                            connected to another set by a matched edge. Thus, 
+                            the graph is an <b>imperfect matching</b>.</p>;
 
     // Step 4 Perfect
     var step4titlePerfect = 'Step 4: Create a directed graph from an undirected graph';
@@ -268,6 +268,7 @@ const Algo = () => {
     const [showDMLegend, setShowDMLegend] = useState(false);
     const [partitionEdges, setPartitionEdges] = useState(partitionEdgesJSON);
     const [bipartiteGraph, setBipartiteGraph] = useState(graph);
+    const [showExposed, setShowExposed] = useState(false);
     
     const nextButton = () => {
         // Perfect
@@ -346,9 +347,11 @@ const Algo = () => {
                 setTitle(step3title)
                 setText(step3Text1)
                 setText2(step3Text2Imperfect)
+                setShowExposed(true)
             }
             // Step 4
             if (stepCount === 1){
+                setShowExposed(false)
                 setTitle(step4titleImperfect);
                 setText(step4Text1Imperfect)
                 setText2(step4Text2Imperfect)
@@ -503,6 +506,7 @@ const Algo = () => {
             setText(step2Text1)
             setText2(step2Text2)
             setText3(step2Text3)
+            setShowExposed(false)
         }
 
         
@@ -571,6 +575,7 @@ const Algo = () => {
                 setText(step3Text1)
                 setText2(step3Text2Imperfect)
                 setLabelSet('')
+                setShowExposed(true)
             }
             // Step 4
             if (stepCount === 3){
@@ -727,6 +732,7 @@ const Algo = () => {
                         labelSet={labelSet}
                         showDMsets={showDMLegend}
                         showEprime={showEprime}
+                        showExposed={showExposed}
                         />
                     </div >
                     <div className='side-board col-md-6 col-xs-12'>

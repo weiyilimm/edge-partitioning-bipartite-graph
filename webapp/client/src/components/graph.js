@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3'
 
-const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false, showLegend=false, showDirected=true, SCC=[], showE0=false, showEW=false, showE1=false, showEprime=false, labelSet="", showDMsets=false}) => {
+const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false, showLegend=false, showDirected=true, SCC=[], showE0=false, showEW=false, showE1=false, showEprime=false, labelSet="", showDMsets=false, showExposed=false}) => {
     const ref = useRef()
     // Convert json string into data set
     // Data set contains nodes and edges list
@@ -371,6 +371,14 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
         }
 
         if (matching !== "") {
+            var matchingVertices = []
+            Object.keys(matching).forEach(
+                function(key) {
+                    matchingVertices.push(key)
+                    matchingVertices.push(matching[key])
+                }
+            )
+            console.log(matchingVertices)
             var matchingJSONString = JSON.stringify(dataset.maxMatching)
             links.style('stroke-width', function(l) {
                 if (matchingJSONString.includes(JSON.stringify(l))){
@@ -395,6 +403,38 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
                     }
                 })
             } 
+
+            if (showExposed == true){
+                nodes.style('visibility', function(l) {
+                    console.log(matchingVertices)
+                    console.log(l.name)
+                    if (l.isLeft == true){
+                        if (matchingVertices.includes(String(l.name)) === false){
+                            var num = parseInt((l.name).replace("x_", ""))
+                            return (svgElement.append('rect')
+                            .attr('x', 70)
+                            .attr('y', ((num-1) * 100) + 70)
+                            .attr('width', 60)
+                            .attr('height', 60)
+                            .attr('fill', 'none')
+                            .style("stroke", "black")
+                            .style("stroke-width", 1));
+                        }
+                    }
+                    else{
+                        if (matchingVertices.includes(l.name) === false){
+                            return (svgElement.append('rect')
+                                            .attr('x', 370)
+                                            .attr('y', (l.name * 100) + 70)
+                                            .attr('width', 60)
+                                            .attr('height', 60)
+                                            .attr('fill', 'none')
+                                            .style("stroke", "black")
+                                            .style("stroke-width", 1));
+                        } 
+                    }
+                })
+            }
         }
 
         if (SCC.length !== 0) {
