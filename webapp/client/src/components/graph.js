@@ -378,7 +378,6 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
                     matchingVertices.push(matching[key])
                 }
             )
-            console.log(matchingVertices)
             var matchingJSONString = JSON.stringify(dataset.maxMatching)
             links.style('stroke-width', function(l) {
                 if (matchingJSONString.includes(JSON.stringify(l))){
@@ -404,11 +403,9 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
                 })
             } 
 
-            if (showExposed == true){
+            if (showExposed === true){
                 nodes.style('visibility', function(l) {
-                    console.log(matchingVertices)
-                    console.log(l.name)
-                    if (l.isLeft == true){
+                    if (l.isLeft === true){
                         if (matchingVertices.includes(String(l.name)) === false){
                             var num = parseInt((l.name).replace("x_", ""))
                             return (svgElement.append('rect')
@@ -431,7 +428,7 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
                                             .attr('fill', 'none')
                                             .style("stroke", "black")
                                             .style("stroke-width", 1));
-                        } 
+                        }
                     }
                 })
             }
@@ -548,13 +545,48 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
         }
 
         if (showDMsets === true){
+            nodes.select('circle').remove()      
+            nodes.select('text').remove()      
+            nodes.append("circle")
+            .attr("class", "node")   
+            .attr("r", 25)
+            .style("fill", function(l) {
+                if (l.isLeft === true && l.label==="+"){
+                    return "#27bdb2"
+                }
+                if (l.isLeft === false && l.label==="*"){
+                    return "#285fbd"
+                }
+                if (l.isLeft === true && l.label==="*"){
+                    return "#285fbd"
+                }
+                if (l.isLeft === false && l.label==="+"){
+                    return "#8528bd"
+                }
+                if (l.isLeft === true && l.label==="∪"){
+                    return "#bd2869"
+                }
+                if (l.isLeft === false && l.label==="∪"){
+                    return "#bd8028"
+                }
+            })
+            nodes.append("text")
+            .attr("text-anchor", "middle")
+            .style("font-size", "15px")
+            .style('fill', '#ebebf2')
+            .style('dominant-baseline', 'central')
+            .text(function(d) {
+              return d.name;
+             })
+            
+
             var DMLegendHeight = height-20
             if (left_count < 5 && right_count < 5){
                 DMLegendHeight = height+10
             }
             
             var DMLegendFontSize = "10px"
-            var legendXposition = [[20, '#27bdb2'], [100, '#285fbd'], [180, '#288dbd'], [260, '#8528bd'], [340, '#bd2869'], [420, '#bd8028']];
+            var legendXposition = [[20, '#27bdb2'], [100, '#285fbd'], [180, '#285fbd'], [260, '#8528bd'], [340, '#bd2869'], [420, '#bd8028']];
 
             svgElement.selectAll()
                     .data(legendXposition)
@@ -596,6 +628,14 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
                         .attr('opacity', '0.4')
                         links.style("visibility", "hidden")
                         if (i === 10){
+                            nodes.style('visibility', function(l) {
+                                if (l.isLeft === true && l.label==="+"){
+                                    return "visible"
+                                }
+                                else{
+                                    return "hidden"
+                                }
+                            })
                             nodes.style('visibility', function(l) {
                                 if (l.isLeft === true && l.label==="+"){
                                     return "visible"
