@@ -5,7 +5,7 @@ const Footer = () => {
     return (
         <div className="footer">
             <hr className='line'></hr>
-            <p>Copyright © 2022 Edge Partitioning. All rights reserved.</p>
+            <p>Edge Partitioning</p>
         </div>
     )
 }
