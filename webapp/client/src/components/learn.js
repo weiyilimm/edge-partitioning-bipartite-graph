@@ -51,7 +51,6 @@ class Learn extends React.Component {
     
     // Everything same as above function just the opposite
     handleChangeRight = (e) => {
-        console.log(this.state.edgesList)
         this.setState({rightVertices:e.target.value});
         var leftNumber = this.state.leftVertices;
         var rightNumber = e.target.value;
@@ -96,8 +95,8 @@ class Learn extends React.Component {
             localStorage.setItem('imperfectPartitionEdges', JSON.stringify(res.data.imperfectPartitionEdges));
             localStorage.setItem('imperfectPerfectMatching', JSON.stringify(res.data.imperfectPerfectMatching));
             localStorage.setItem('imperfectPerfectPartitionEdges', JSON.stringify(res.data.imperfectPerfectPartitionEdges));
-            console.log(`statusCode: ${res.status}`)
-            console.log(res.data.graph)
+            // console.log(`statusCode: ${res.status}`)
+            // console.log(res.data.graph)
             this.setState({res:res.data.graph})
         }).catch(error => {
             console.log(`statusCode: ${error.response.status}`)
@@ -128,12 +127,12 @@ class Learn extends React.Component {
                     <div className='side-board col-md-6 col-xs-12 mh-100'>
                         <h4 className='mt-4 mb-5'>Step 1: Graph Initialisation</h4>
                         <p className='mb-5'>
-                            The problem can be modelled in a bipartite graph G(X, Y, E) 
+                            The problem can be modelled in a bipartite graph G(X, Y, E),  
                             where X is the left vertex set, Y is the right vertex set, and E 
                             is the edge set. Left (X) and right (Y) vertices are two independent sets,
-                            and all edges have one left endpoint vertex to right endpoint vertex. <br></br>
-                            There are two methods to partition edges: one for the same number of vertices in X and Y, 
-                            one for the different number of vertices in X and Y. 
+                            and all edges have one left endpoint vertex to right endpoint vertex. <br></br><br></br>
+                            There are two methods to partition edges: the same number of vertices in X 
+                            and Y and the different number of vertices in X and Y.
                         </p>
                         <p>
                             Please select the number of left and right vertices below. For best learning experience, 1 to 5 vertices are recommended.

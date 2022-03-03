@@ -16,7 +16,6 @@ class NavigationBar extends Component{
                 <Navbar.Collapse>
                     <Nav className="ms-auto me-3">
                         <Nav.Link className='ms-3' href='/graph-initialisation'>Learn</Nav.Link>
-                        <Nav.Link className='ms-3' href='/support'>Support</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
                     

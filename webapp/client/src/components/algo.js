@@ -16,17 +16,16 @@ const Algo = () => {
     var imperfectPerfectPartitionEdges = JSON.parse(localStorage.getItem('imperfectPerfectPartitionEdges'))
     // Step 2
     var step2title = 'Step 2: Finding maximum matching';
-    var step2Text1 = 'A matching (M) in a Bipartite Graph is a set of edges, ' +
-                    'subset of the edge set E, that no two edges share an ' +
-                    'endpoint vertex. A maximum matching is a matching of ' +
-                    'maximum number of edges. In a maximum matching, if any ' +
-                    'edge is added into it, it is no longer a matching.';
+    var step2Text1 = <p>A matching (M) in a Bipartite Graph is a set of edges, 
+                    a subset of the edge set E, that no two edges share an endpoint vertex. 
+                    A maximum matching is a matching of a maximum number of edges. 
+                    If any edge is added into a maximum matching in a maximum matching, 
+                    it is no longer matching.</p>
     var step2Text2 = <p>In order to find the maximum matching, 
                     a <a href="https://epubs.siam.org/doi/epdf/10.1137/0202019" className='document'>
                     Hopcroft-Karp algorithm</a> with a worst-case running time 
                     of O(n^1/2m) is used.</p>;
-    var step2Text3 = 'Note: Edges from set E are shown as black lines; ' +
-                    'Matching edges from set M are shown as green lines.';
+    var step2Text3 = <div>Note: Edges from set <span style={{"color": "#e06c75"}}>E</span> are shown as black lines; Matching edges from set <span style={{"color": "#e06c75"}}>M</span> are shown as green lines.</div>
 
     // Step 3
     var step3title = 'Step 3: Check if the maximum matching is perfect or imperfect';
@@ -36,30 +35,29 @@ const Algo = () => {
     var step3Text2Perfect = <p>The bipartite graph shows that all vertices in X and Y are 
                             connected with a matched edge (green line). Thus, 
                             the graph is a <b>perfect matching</b>.</p>;
-    var step3Text2Imperfect = <p>The highlighter box contains an exposed vertex, the vertex that is not 
+    var step3Text2Imperfect = <p>The highlighter box contains an exposed vertex, which is not 
                             connected to another set by a matched edge. Thus, 
                             the graph is an <b>imperfect matching</b>.</p>;
 
     // Step 4 Perfect
     var step4titlePerfect = 'Step 4: Create a directed graph from an undirected graph';
-    var step4Text1Perfect = 'If the edge is in the matching, the left vertex goes to the ' +
-                            'right vertex. If the edge is not in the matching, the right ' +
-                            'vertex goes to the left vertex.';
+    var step4Text1Perfect = <div>Suppose an edge belongs to the matching, the direction of an edge goes from its endpoint, vertex in set X to another endpoint, vertex in set Y. On the other hand, if an edge does not belong to the matching, the direction of an edge goes from its endpoint, vertex in set Y to another endpoint, vertex in set X.</div>
     var step4Text2Perfect = '';
 
     // Step 5 Perfect
     var step5titlePerfect = 'Step 5: Find strongly connected components';
-    var step5Text1Perfect = 'A directed bipartite graph G(X, Y, E) is ' +
-                            'strongly connected if every vertex is ' +
-                            'reachable from every other vertex. A strongly ' +
-                            'connected component of G is a maximal strongly connected subgraph of G.';
+    var step5Text1Perfect = <div>A directed bipartite graph G(X, Y, E) is strongly connected 
+                            if every vertex is reachable from every other vertex by following 
+                            the directed edges. A strongly connected component of G is a maximal 
+                            strongly connected subgraph of G. <br></br><br></br>
+                            For example, "x_1 -> 0 -> x_2 -> 1 -> x_1" is a cycle, hence a strongly connected component.
+                            </div>
     var step5Text2Perfect = <p>A <a href="https://epubs.siam.org/doi/epdf/10.1137/0201010" 
                             className='document'>Tarjan's strongly connected components 
-                            algorithm</a> with a worst case running time of O(|X| + |Y| + |E|), 
+                            algorithm</a> with a worst-case running time of O(|X| + |Y| + |E|), 
                             where |X| is the number of X vertices, |Y| is the number of Y vertices, 
                             and |E| is the number of edges is used.</p>;
-    var step5Text3Perfect = 'Note: Edges from set E are shown as black lines; ' +
-                            'Edges from SCC component are shown as green lines.';
+    var step5Text3Perfect = <div>Note: Edges from set <span style={{"color": "#e06c75"}}>E</span> are shown as black lines; Edges from the <span style={{"color": "#e06c75"}}>SCC component</span> are shown as green lines.</div>
 
     // Step 6 Perfect
     var step6titlePerfect = 'Step 6: Find "some maximum matching (EW)"';
@@ -68,8 +66,7 @@ const Algo = () => {
                             'to at least one maximum matching but not all of them.' 
     var step6Text2Perfect = <p>Every edge of the <b>strongly connected component</b> belongs to the 
                             "some maximum matching (EW)" set.</p>;
-    var step6Text3Perfect = 'Note: Edges from set E are shown as black lines; ' +
-                            'Edges from EW are shown as green lines.';
+    var step6Text3Perfect = <div>Note: Edges from set <span style={{"color": "#e06c75"}}>E</span> are shown as black lines; Edges from <span style={{"color": "#e06c75"}}>EW</span> are shown as green lines.</div>
 
     // Step 7 Perfect
     var step7titlePerfect = 'Step 7: Find "all maximum matching (E1)"';
@@ -79,8 +76,7 @@ const Algo = () => {
     var step7Text2Perfect = <p>Every edge of the <b>matching</b> belongs to the 
                             "all maximum matching (E1)" set if it does not belong to 
                             "some maximum matching (EW)".</p>;
-    var step7Text3Perfect = 'Note: Edges from set E are shown as black lines; ' +
-                            'Edges from E1 are shown as green lines.';
+    var step7Text3Perfect = <div>Note: Edges from set <span style={{"color": "#e06c75"}}>E</span> are shown as black lines; Edges from <span style={{"color": "#e06c75"}}>E1</span> are shown as green lines.</div>
     
     // Step 8 Perfect
     var step8titlePerfect = 'Step 8: Find "no maximum matching (E0)"';
@@ -90,18 +86,17 @@ const Algo = () => {
     var step8Text2Perfect = 'Every edge of the bipartite graph belongs to the ' +
                             '"no maximum matching (E0)" set if it does not belong to ' +
                             '"some maximum matching (EW)" and "all maximum matching (E1)".';
-    var step8Text3Perfect = 'Note: Edges from set E are shown as black lines; ' +
-                            'Edges from E0 are shown as green lines.';
+    var step8Text3Perfect = <div>Note: Edges from set <span style={{"color": "#e06c75"}}>E</span> are shown as black lines; Edges from <span style={{"color": "#e06c75"}}>E0</span> are shown as green lines.</div>
     
     // Step 9 Perfect
     var step9titlePerfect = 'Step 9: Congrats! ';
-    var step9Text1Perfect = 'You\'ve just partitioned the edges into three different set for a bipartite graph(X,Y,E) that has a perfect matching.' 
+    var step9Text1Perfect = 'You\'ve just partitioned the edges into three different set for a bipartite graph(X, Y, E) that has a perfect matching.' 
     var step9Text2Perfect = 'Try hovering over the legend and see the partitioned edges set!'
-    var step9Text3Perfect = <div>Learn another method of edge partitioning for <a href="/graph-initialisation" className='document'>IMPERFECT MATCHING</a> by setting different number of vertices in left(X) and right(Y) vertex sets, e.g. "3" and "4". </div>
+    var step9Text3Perfect = <div>Learn another method of edge partitioning for <a href="/graph-initialisation" className='document'>IMPERFECT MATCHING</a> by setting a different number of vertices in left(X) and right(Y) vertex sets, e.g. "3" and "4". </div>
 
     // Step 4 Imerfect
     var step4titleImperfect = 'Step 4: Label vertices ';
-    var step4Text1Imperfect = 'In an imperfect matching, vertices in X and Y set are labelled into plus(+), star(*), or u(∪).';
+    var step4Text1Imperfect = 'In an imperfect matching, vertices in the X and Y set are labelled into plus(+), star(*), or u(∪).';
     var step4Text2Imperfect = <div className='pseudocode'><span style={{"color": "#af00db"}}>label</span> exposed vertices in X as plus
     <hr></hr><span style={{"color": "#af00db"}}>while</span> (there are vertices to be labelled as plus) <span style={{"color": "#af00db"}}>do</span>:
     <hr></hr>&nbsp;&nbsp;&nbsp;&nbsp;<span style={{"color": "#af00db"}}>label</span> unlabelled vertices in Y that is adjacent to a labelled vertex in X by an unmatched edge as plus
@@ -133,38 +128,35 @@ const Algo = () => {
                             '"No maximum matching (E0)" is a set of edges belonging ' +
                             'to no maximum matching.' 
     var step6Text2Imperfect = <div>
-                            In a bipartite graph G(X,Y,E), an edge from E set belongs to E0 if it also belongs to one of the following:
+                            In a bipartite graph G(X, Y, E), an edge from E set belongs to E0 if it also belongs to one of the following:
                             <ul>
                                 <li>the cartesian product of B<sub>x</sub> and B<sub>y</sub> sets (B<sub>x</sub> × B<sub>y</sub>)</li>
                                 <li>the cartesian product of B<sub>x</sub> and C<sub>y</sub> sets (B<sub>x</sub> × C<sub>y</sub>)</li>
                                 <li>the cartesian product of C<sub>x</sub> and B<sub>y</sub> sets (C<sub>x</sub> × B<sub>y</sub>)</li>
                             </ul>
                             </div>;
-    var step6Text3Imperfect = 'Note: Edges from set E are shown as black lines; ' +
-                            'Edges from E0 are shown as green lines.';
+    var step6Text3Imperfect = <div>Note: Edges from set <span style={{"color": "#e06c75"}}>E</span> are shown as black lines; Edges from <span style={{"color": "#e06c75"}}>E0</span> are shown as green lines.</div>
     // Step 7 Imperfect
     var step7titleImperfect = 'Step 7: Find "some maximum matching (EW)"';
     var step7Text1Imperfect = 'A bipartite graph contains at least one maximum matching M. ' +
                             '"Some maximum matching (EW)" is a set of edges belonging ' +
                             'to at least one maximum matching but not all of them.' 
     var step7Text2Imperfect = <div>
-                            In a bipartite graph G(X,Y,E), an edge from E set belongs to EW if it also belongs to one of the following:
+                            In a bipartite graph G(X, Y, E), an edge from E set belongs to EW if it also belongs to one of the following:
                             <ul>
                                 <li>the cartesian product of A<sub>x</sub> and B<sub>y</sub> sets (A<sub>x</sub> × B<sub>y</sub>)</li>
                                 <li>the cartesian product of B<sub>x</sub> and A<sub>y</sub> sets (B<sub>x</sub> × A<sub>y</sub>)</li>
                             </ul>
                             </div>;
-    var step7Text3Imperfect = 'Note: Edges from set E are shown as black lines; ' +
-                            'Edges from EW are shown as green lines.';
+    var step7Text3Imperfect = <div>Note: Edges from set <span style={{"color": "#e06c75"}}>E</span> are shown as black lines; Edges from <span style={{"color": "#e06c75"}}>EW</span> are shown as green lines.</div>
 
     // Step 8 Imperfect 
     var step8titleImperfect = 'Step 8: Find "a perfect matching subgraph (G\')"';
-    var step8Text1Imperfect = <div>G'(C<sub>x</sub>∪C<sub>y</sub>,E') is a subgraph of a bipartite graph G(X,Y,E) that has a perfect matching, 
+    var step8Text1Imperfect = <div>G'(C<sub>x</sub>∪C<sub>y</sub>, E') is a subgraph of a bipartite graph G(X, Y, E) that has a perfect matching, 
                             where C<sub>x</sub> is a set that contains U(∪) labelled vertices in X set, 
                             C<sub>y</sub> is a set that contains U(∪) labelled vertices in Y set, and E' is the cardinality product of C<sub>x</sub> and C<sub>y</sub>.</div>
     var step8Text2Imperfect = 'In other words, an edge belongs to E\' if it does not belong to "no maximum matching (E0)" or "some maximum matching (EW)".';
-    var step8Text3Imperfect = 'Note: Edges from set E are shown as black lines; ' +
-                            'Edges from E\' are shown as green lines.';
+    var step8Text3Imperfect = <div>Note: Edges from set <span style={{"color": "#e06c75"}}>E</span> are shown as black lines; Edges from <span style={{"color": "#e06c75"}}>E'</span> are shown as green lines.</div>
 
     // Step 9 Imperfect if no E PRIME
     var step9titleImperfect1 = 'Step 9: Find "all maximum matching (E1)"';
@@ -172,16 +164,13 @@ const Algo = () => {
                             '"All maximum matching (E1)" is a set of edges belonging ' +
                             'to all maximum matching.' 
     var step9Text2Imperfect1 = 'None of the edge belongs to "all maximum matching (E1)" if E\' is an empty set.';
-    var step9Text3Imperfect1 = 'Note: Edges from set E are shown as black lines; ' +
-                            'Edges from E1 are shown as green lines.';
+    var step9Text3Imperfect1 = <div>Note: Edges from set <span style={{"color": "#e06c75"}}>E'</span> are shown as black lines; Edges from the matching of <span style={{"color": "#e06c75"}}>E'</span> are shown as green lines.</div>
     
     // Step 9 Imperfect if got E PRIME
-    var step9titleImperfect2 = <div>Step 9: Plot the sub graph G'(C<sub>x</sub>∪C<sub>y</sub>,E')</div>;
-    var step9Text1Imperfect2 = <div>G'(C<sub>x</sub>∪C<sub>y</sub>,E') is a sub graph of a bipartite graph G(X,Y,E) that has a perfect matching. It can be further partitioned into three edge sets: E0, EW, and E1.</div>
+    var step9titleImperfect2 = <div>Step 9: Plot the sub graph G'(C<sub>x</sub>∪C<sub>y</sub>, E')</div>;
+    var step9Text1Imperfect2 = <div>G'(C<sub>x</sub>∪C<sub>y</sub>, E') is a sub graph of a bipartite graph G(X, Y, E) that has a perfect matching. It can be further partitioned into three edge sets: E0, EW, and E1.</div>
     var step9Text2Imperfect2 = '';
-    var step9Text3Imperfect2 = 'Note: Edges from set E\' are shown as black lines; ' +
-                            'Edges from matching of E\' are shown as green lines.';
-
+    var step9Text3Imperfect2 = <div>Note: Edges from set <span style={{"color": "#e06c75"}}>E'</span> are shown as black lines; Edges from the matching of <span style={{"color": "#e06c75"}}>E'</span> are shown as green lines.</div>
     // Step 10 Imperfect if no E PRIME
     var step10titleImperfect1 = 'Step 10: Congrats! ';
     var step10Text1Imperfect1 = 'You\'ve just partitioned the edges into three different set for a bipartite graph(X,Y,E) that has an imperfect matching.' 
@@ -191,24 +180,23 @@ const Algo = () => {
 
     // Step 10 Imperfect if got E PRIME
     var step10titleImperfect2 = 'Step 10: Create a directed graph from an undirected graph';
-    var step10Text1Imperfect2 = 'If the edge is in the matching, the left vertex goes to the ' +
-                                'right vertex. If the edge is not in the matching, the right ' +
-                                'vertex goes to the left vertex.';
+    var step10Text1Imperfect2 = <div>Suppose an edge belongs to the matching, the direction of an edge goes from its endpoint, vertex in set X to another endpoint, vertex in set Y. On the other hand, if an edge does not belong to the matching, the direction of an edge goes from its endpoint, vertex in set Y to another endpoint, vertex in set X.</div>
     var step10Text2Imperfect2 = '';
 
     // Step 11 Imperfect if got E PRIME
     var step11titleImperfect2 = 'Step 11: Find strongly connected components';
-    var step11Text1Imperfect2 = 'A directed bipartite graph G(X, Y, E) is ' +
-                            'strongly connected if every vertex is ' +
-                            'reachable from every other vertex. A strongly ' +
-                            'connected component of G is a maximal strongly connected subgraph of G.';
+    var step11Text1Imperfect2 = <div>A directed bipartite graph G(X, Y, E) is strongly connected 
+                                if every vertex is reachable from every other vertex by following 
+                                the directed edges. A strongly connected component of G is a maximal 
+                                strongly connected subgraph of G. <br></br>
+                                For example, "x_1 -> 0 -> x_2 -> 1 -> x_1" is a cycle, hence a strongly connected component.
+                                </div>
     var step11Text2Imperfect2 = <p>A <a href="https://epubs.siam.org/doi/epdf/10.1137/0201010" 
                             className='document'>Tarjan's strongly connected components 
-                            algorithm</a> with a worst case running time of O(|X| + |Y| + |E|), 
+                            algorithm</a> with a worst-case running time of O(|X| + |Y| + |E|), 
                             where |X| is the number of X vertices, |Y| is the number of Y vertices, 
                             and |E| is the number of edges is used.</p>;
-    var step11Text3Imperfect2 = 'Note: Edges from set E\' are shown as black lines; ' +
-                            'Edges from SCC component are shown as green lines.';
+    var step11Text3Imperfect2 = <div>Note: Edges from set <span style={{"color": "#e06c75"}}>E'</span> are shown as black lines; Edges from the <span style={{"color": "#e06c75"}}>SCC component</span> are shown as green lines.</div>
     
     // Step 12 Imperfect if got E PRIME
     var step12titleImperfect2 = 'Step 12: Find "some maximum matching (EW)"';
@@ -217,8 +205,7 @@ const Algo = () => {
                             'to at least one maximum matching but not all of them.' 
     var step12Text2Imperfect2 = <p>Every edge of the <b>strongly connected component</b> belongs to the 
                             "some maximum matching (EW)" set.</p>;
-    var step12Text3Imperfect2 = 'Note: Edges from set E are shown as black lines; ' +
-                            'Edges from EW are shown as green lines.';
+    var step12Text3Imperfect2 = <div>Note: Edges from set <span style={{"color": "#e06c75"}}>E'</span> are shown as black lines; Edges from <span style={{"color": "#e06c75"}}>EW</span> are shown as green lines.</div>
 
     // Step 13 Perfect
     var step13titleImperfect2 = 'Step 13: Find "all maximum matching (E1)"';
@@ -228,8 +215,7 @@ const Algo = () => {
     var step13Text2Imperfect2 = <p>Every edge of the <b>matching</b> belongs to the 
                             "all maximum matching (E1)" set if it does not belong to 
                             "some maximum matching (EW)".</p>;
-    var step13Text3Imperfect2 = 'Note: Edges from set E are shown as black lines; ' +
-                            'Edges from E1 are shown as green lines.';
+    var step13Text3Imperfect2 = <div>Note: Edges from set <span style={{"color": "#e06c75"}}>E'</span> are shown as black lines; Edges from <span style={{"color": "#e06c75"}}>E1</span> are shown as green lines.</div>
     
     // Step 14 Perfect
     var step14titleImperfect2 = 'Step 14: Find "no maximum matching (E0)"';
@@ -239,13 +225,12 @@ const Algo = () => {
     var step14Text2Imperfect2 = 'Every edge of the bipartite graph belongs to the ' +
                             '"no maximum matching (E0)" set if it does not belong to ' +
                             '"some maximum matching (EW)" and "all maximum matching (E1)".';
-    var step14Text3Imperfect2 = 'Note: Edges from set E are shown as black lines; ' +
-                            'Edges from E0 are shown as green lines.';
+    var step14Text3Imperfect2 = <div>Note: Edges from set <span style={{"color": "#e06c75"}}>E'</span> are shown as black lines; Edges from <span style={{"color": "#e06c75"}}>E0</span> are shown as green lines.</div>
 
     // Step 15 Imperfect if no E PRIME
     var step15titleImperfect2 = 'Step 15: Congrats! ';
-    var step15Text1Imperfect2 = 'You\'ve just partitioned the edges into three different set for a bipartite graph(X,Y,E) that has an imperfect matching.' 
-    var step15Text2Imperfect2 = 'Try hovering over the legend and see the partitioned edges set!'
+    var step15Text1Imperfect2 = <div>The partitioned set E0 and EW in steps 6 and 7 were concatenated with the partitioned set E0 and EW in the subgraph G'(Cx∪Cy, E')</div>
+    var step15Text2Imperfect2 = 'You\'ve just partitioned the edges into three different set for a bipartite graph(X,Y,E) that has an imperfect matching. Try hovering over the legend and see the partitioned edges set!'
     var step15Text3Imperfect2 = <div>Learn another method of edge partitioning for <a href="/graph-initialisation" className='document'>PERFECT MATCHING</a> by setting same number of vertices in left(X) and right(Y) vertex sets, e.g. "4" and "4". </div>
 
     const [matching, setMatching] = useState(graphMatching);

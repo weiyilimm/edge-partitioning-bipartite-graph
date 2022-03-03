@@ -558,7 +558,7 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
                     return "#285fbd"
                 }
                 if (l.isLeft === true && l.label==="*"){
-                    return "#285fbd"
+                    return "#288dbd"
                 }
                 if (l.isLeft === false && l.label==="+"){
                     return "#8528bd"
@@ -586,7 +586,7 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
             }
             
             var DMLegendFontSize = "10px"
-            var legendXposition = [[20, '#27bdb2'], [100, '#285fbd'], [180, '#285fbd'], [260, '#8528bd'], [340, '#bd2869'], [420, '#bd8028']];
+            var legendXposition = [[20, '#27bdb2'], [100, '#285fbd'], [180, '#288dbd'], [260, '#8528bd'], [340, '#bd2869'], [420, '#bd8028']];
 
             svgElement.selectAll()
                     .data(legendXposition)

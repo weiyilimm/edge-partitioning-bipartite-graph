@@ -30,27 +30,32 @@ class Home extends React.Component {
                         <div>
                             <h2>Edge Partitioning Algorithm</h2>
                             <div className="details mb-5">
-                                <p>Hopcroft-Karp algorithm is a matching algorithm that is used widely in real-world
-                                    applications such as student-project allocation and job-applicant recruitment to
-                                    achieve maximum cardinality matching. The problems can be modelled in a
-                                    bipartite graph G(X ,Y, E), where X is left vertex set, Y is right vertex set,
-                                    and E is edge set. A matching M is a subset of edge set E if no two edges in M
-                                    share the same node of G. M is maximal if the there is no other matching of
-                                    the graph with higher cardinality. Edges in E can be partitioned into three sets:
+                                <p>Hopcroft-Karp algorithm is a matching algorithm that is used 
+                                    widely in real-world applications such as student-project 
+                                    allocation and job-applicant recruitment to achieve maximum 
+                                    cardinality matching. The problems can be modelled in a 
+                                    bipartite graph G(X, Y, E), where X is the left vertex set, 
+                                    Y is the right vertex set, and E is the edge set. A matching 
+                                    M is a subset of edge set E if no two edges in M share the 
+                                    same node of G. M is maximal if there is no other graph 
+                                    matching with higher cardinality. Edges in E can be partitioned 
+                                    into three sets:
                                 </p>
                                 <ol className="list-group list-group-numbered">
-                                    <li>maximum matching (E1)</li>
-                                    <li>some maximum matching (EW)</li>
-                                    <li>no maximum matching (E0)</li>
+                                    <li>All maximum matching (E1)</li>
+                                    <li>Some maximum matching (EW)</li>
+                                    <li>No maximum matching (E0)</li>
                                 </ol>
                             </div>
                             <h2>An example...</h2>
                             <div className="details pb-1">
                                 <p>
-                                  Suppose a senior lecturer wishes to allocate M  lecturers to N computer science modules. 
-                                  However, not all lecturers can teach all modules in the school; they can only teach the 
-                                  area of their competence. He wants to allocate as many lectuers as possible to utilise 
-                                  the resource fully. Furthermore, lecturers could also be able to swap between lectures.
+                                Suppose a senior lecturer wishes to allocate M lecturers 
+                                to N computer science modules. However, not all lecturers 
+                                can teach all modules in the school; they can only teach 
+                                the area of their competence. He wants to allocate as many 
+                                lecturers as possible to utilise the resource fully. Furthermore, 
+                                lecturers could also be able to swap between lectures.
                                 </p>
                             </div>
                             <div className="details pb-5">
