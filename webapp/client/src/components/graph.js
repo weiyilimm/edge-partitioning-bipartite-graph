@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3'
 
-const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false, showLegend=false, showDirected=true, SCC=[], showE0=false, showEW=false, showE1=false, showEprime=false, labelSet="", showDMsets=false, showExposed=false}) => {
+const CreateGraph = ({jsonData, partitionEdges='', matching='', showMatching=false, showOnHover=false, showLegend=false, showDirected=true, SCC=[], showE0=false, showEW=false, showE1=false, showEprime=false, labelSet="", showDMsets=false, showExposed=false}) => {
     const ref = useRef()
     // Convert json string into data set
     // Data set contains nodes and edges list
@@ -379,17 +379,18 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
                 }
             )
             var matchingJSONString = JSON.stringify(dataset.maxMatching)
-            links.style('stroke-width', function(l) {
-                if (matchingJSONString.includes(JSON.stringify(l))){
-                    return 3
-                }
-            })
-            links.style('stroke', function(l) {
-                if (matchingJSONString.includes(JSON.stringify(l))){
-                    return "#048900"
-                }
-            })
-
+            if (showMatching == true){
+                links.style('stroke-width', function(l) {
+                    if (matchingJSONString.includes(JSON.stringify(l))){
+                        return 3
+                    }
+                })
+                links.style('stroke', function(l) {
+                    if (matchingJSONString.includes(JSON.stringify(l))){
+                        return "#048900"
+                    }
+                })
+            }
             if (showDirected){
                 links.attr('marker-end', function(l) {
                     if (matchingJSONString.includes(JSON.stringify(l))){
@@ -402,7 +403,6 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='',showOnHover=false
                     }
                 })
             } 
-
             if (showExposed === true){
                 nodes.style('visibility', function(l) {
                     if (l.isLeft === true){

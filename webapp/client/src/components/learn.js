@@ -86,6 +86,7 @@ class Learn extends React.Component {
         {
             jsonData: userInput
         }).then(res => {
+            // Get the response from the server and store into local storage 
             localStorage.setItem('graph', JSON.stringify(res.data.graph));
             localStorage.setItem('matching', JSON.stringify(res.data.matching));
             localStorage.setItem('isPerfect', JSON.stringify(res.data.is_perfect));
