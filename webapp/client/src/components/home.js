@@ -19,10 +19,10 @@ class Home extends React.Component {
                         </div>
                         <div className='col-md-6 col-xs-12 svg-contain justify-content-end'>
                             <CreateGraph 
-                            jsonData={{"x_1": [0, 2, 3], "x_2": [3], "x_3": [1], "x_4": [0, 2]}}
-                            partitionEdges={{"E0": {"x_1": [3]}, "EW": {"x_4": [2, 0], "x_1": [2, 0]}, "E1": {"x_3": [1], "x_2": [3]}}}
+                            graph={{"x_1": [0, 2, 3], "x_2": [3], "x_3": [1], "x_4": [0, 2]}}
+                            partitionSets={{"E0": {"x_1": [3]}, "EW": {"x_4": [2, 0], "x_1": [2, 0]}, "E1": {"x_3": [1], "x_2": [3]}}}
                             showOnHover={true}
-                            showLegend={true}
+                            showPartitionSetsLegend={true}
                             />
                         </div>
                     </div>

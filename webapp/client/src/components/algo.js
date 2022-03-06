@@ -750,14 +750,12 @@ const Algo = () => {
     const nextButton = () => {
         changeStep(stepCount+1)
         setStepCount(stepCount+1)
-        console.log(stepCount+1)
     }
         
 
     const prevButton = () => {
         changeStep(stepCount-1)
         setStepCount(stepCount-1)
-        console.log(stepCount-1)
     }
     // document.addEventListener('keyup', function(event){
     //     if (event.key === 'ArrowLeft') {
@@ -774,19 +772,19 @@ const Algo = () => {
             <div className='container-fluid row'>
                     <div className='col-md-6 col-xs-12'>
                         <CreateGraph 
-                        jsonData={graph} 
-                        partitionEdges={partitionSets}
-                        matching={maxMatching}
-                        showMatching={showMaxMatching}
-                        showLegend={showPartitionSetsLegend}
-                        showDirected={showDirectedGraph}
+                        graph={graph} 
+                        partitionSets={partitionSets}
+                        maxMatching={maxMatching}
+                        showMaxMatching={showMaxMatching}
+                        showPartitionSetsLegend={showPartitionSetsLegend}
+                        showDirectedGraph={showDirectedGraph}
                         SCC={SCC}
                         showEW={showEW}
                         showE1={showE1}
                         showE0={showE0}
                         showOnHover={showOnHover}
-                        labelSet={labelSets}
-                        showDMsets={showDMSetsLegend}
+                        labelSets={labelSets}
+                        showDMSetsLegend={showDMSetsLegend}
                         showEprime={showEprime}
                         showExposed={showExposed}
                         />
@@ -799,9 +797,9 @@ const Algo = () => {
                         <div className='mb-1 pb-4'>
                             {text2}
                         </div>
-                        <p className='mb-5 pb-5' style={{ fontSize : "0.9rem"}}>
+                        <div className='mb-5 pb-5' style={{ fontSize : "0.9rem"}}>
                             {text3}
-                        </p>
+                        </div>
                         <Button id="prev" className="btn btn-md-pink" role="button" onClick={prevButton} disabled={prevButtonDisabled}>Prev</Button>
                         <Button id="next" className="btn btn-md-pink" role="button" onClick={nextButton} disabled={nextButtonDisabled}>Next</Button>
                     </div>

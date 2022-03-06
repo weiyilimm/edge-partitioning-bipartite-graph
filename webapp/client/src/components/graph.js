@@ -1,19 +1,19 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3'
 
-const CreateGraph = ({jsonData, partitionEdges='', matching='', showMatching=false, showOnHover=false, showLegend=false, showDirected=true, SCC=[], showE0=false, showEW=false, showE1=false, showEprime=false, labelSet="", showDMsets=false, showExposed=false}) => {
+const CreateGraph = ({graph, partitionSets='', maxMatching='', showMaxMatching=false, showOnHover=false, showPartitionSetsLegend=false, showDirectedGraph=true, SCC=[], showE0=false, showEW=false, showE1=false, showEprime=false, labelSets="", showDMSetsLegend=false, showExposed=false}) => {
     const ref = useRef()
     // Convert json string into data set
     // Data set contains nodes and edges list
     // json example: {'x_1': [1], 'x_2': [0], 'x_3': [2, 3], 'x_4': [2]}
     // partition edges : {'E0': {'x_1': [3]}, 'EW': {'x_4': [2, 0], 'x_1': [2, 0]}, 'E1': {'x_3': [1], 'x_2': [3]}}
-    function jsonGraphToDataset(json, partitionEdgesJSON, matchingJSON) {
+    function jsonGraphToDataset(graphJSON, partitionSetsJSON, maxMatchingJSON) {
         var unique_left = new Set();
         var unique_right = new Set();
-        Object.keys(json).forEach(
+        Object.keys(graphJSON).forEach(
             function(key) {
                 unique_left.add(key);
-                json[key].forEach(function (item, index) {
+                graphJSON[key].forEach(function (item) {
                     unique_right.add(item);
                 });
             }
@@ -31,9 +31,9 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='', showMatching=fal
 
         // Add edges into a list
         var edges = []
-        Object.keys(json).forEach(
+        Object.keys(graphJSON).forEach(
             function(key) {
-                var rights = json[key];
+                var rights = graphJSON[key];
                 rights.forEach(function(r) {
                     edges.push({"source": key, "target": r});
                 })
@@ -44,9 +44,9 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='', showMatching=fal
         var ew = []
         var e1 = []
         var ePrime = []
-        Object.keys(partitionEdgesJSON).forEach(
+        Object.keys(partitionSetsJSON).forEach(
             function(key) {
-                var edgeJSON = partitionEdgesJSON[key]
+                var edgeJSON = partitionSetsJSON[key]
                 Object.keys(edgeJSON).forEach( 
                     function(source) {
                         var targetList = edgeJSON[source]
@@ -69,32 +69,32 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='', showMatching=fal
             }
         )
         var maxMatching = []
-        Object.keys(matchingJSON).forEach(
+        Object.keys(maxMatchingJSON).forEach(
             function(key) {
-                maxMatching.push({"source": key, "target": matchingJSON[key]});
+                maxMatching.push({"source": key, "target": maxMatchingJSON[key]});
             }
         )
         return {"nodes": nodes, "edges": edges, "E0": e0, "EW": ew, "E1": e1, "Eprime":ePrime, "maxMatching":maxMatching};
     }
 
-    var dataset = (jsonGraphToDataset(jsonData, partitionEdges, matching));
+    var dataset = (jsonGraphToDataset(graph, partitionSets, maxMatching));
     // The Y position of the first left and right nodes
     const origin = 0;
     const spacing = 100;
     useEffect(() => {
         var left_count = 0;
         var right_count = 0;
-        if (labelSet !== ""){
-            var labelStarSet = labelSet.star
-            var labelPlusSet = labelSet.plus
-            var labelUSet = labelSet.u
+        if (labelSets !== ""){
+            var labelStarSet = labelSets.star
+            var labelPlusSet = labelSets.plus
+            var labelUSet = labelSets.u
         }
         
         var xPositionArray = [];
         var yPositionArray = [];
         // Initialise the x and y position of each node 
         (dataset.nodes).forEach((element, index, array) => {
-            if (labelSet !== ""){
+            if (labelSets !== ""){
                 if (labelStarSet.includes(element.name)){
                     element.label = "*"
                 }
@@ -254,7 +254,7 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='', showMatching=fal
         }
         
         
-        if (showLegend === true){
+        if (showPartitionSetsLegend === true){
             var legendHeight = height-20
             if (left_count < 5 && right_count < 5){
                 legendHeight = height+10
@@ -370,16 +370,16 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='', showMatching=fal
 
         }
 
-        if (matching !== "") {
+        if (maxMatching !== "") {
             var matchingVertices = []
-            Object.keys(matching).forEach(
+            Object.keys(maxMatching).forEach(
                 function(key) {
                     matchingVertices.push(key)
-                    matchingVertices.push(matching[key])
+                    matchingVertices.push(maxMatching[key])
                 }
             )
             var matchingJSONString = JSON.stringify(dataset.maxMatching)
-            if (showMatching == true){
+            if (showMaxMatching === true){
                 links.style('stroke-width', function(l) {
                     if (matchingJSONString.includes(JSON.stringify(l))){
                         return 3
@@ -391,7 +391,7 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='', showMatching=fal
                     }
                 })
             }
-            if (showDirected){
+            if (showDirectedGraph){
                 links.attr('marker-end', function(l) {
                     if (matchingJSONString.includes(JSON.stringify(l))){
                         return "url(#arrowLeftToRightBold)"
@@ -544,7 +544,7 @@ const CreateGraph = ({jsonData, partitionEdges='', matching='', showMatching=fal
             })
         }
 
-        if (showDMsets === true){
+        if (showDMSetsLegend === true){
             nodes.select('circle').remove()      
             nodes.select('text').remove()      
             nodes.append("circle")

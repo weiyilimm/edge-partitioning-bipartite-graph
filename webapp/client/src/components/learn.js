@@ -121,7 +121,7 @@ class Learn extends React.Component {
                 <div className='container-fluid row'>
                     <div className='col-md-6 col-xs-12'>
                         <CreateGraph 
-                        jsonData={this.state.res} 
+                        graph={this.state.res} 
                         showOnHover={true}
                         />
                     </div >
