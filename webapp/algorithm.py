@@ -12,7 +12,7 @@ import sys
 import ast
 now = time.time()
 
-SCC_GLOBAL = ""
+SCC_GLOBAL = []
 L_PLUS_GLOBAL = set()
 L_STAR_GLOBAL = set()
 L_U_GLOBAL = set()
@@ -75,21 +75,21 @@ def perfect_matching_algorithm(x_to_y_graph):
     sccs = []
     for i in tarjan_result:
         # Strongly connected components must be more than two 
-        if len(i) > 1:
+        if len(i) >= 4:
             sccs.append(i)
     
     # If the edges from strongly connected components
     # Adding edges into weakly matching set - EW
     if sccs != 0:
         for scc in sccs:
-            if len(scc) >= 4:
-                global SCC_GLOBAL
-                SCC_GLOBAL = scc
-                for i in scc:
-                    if i in x_to_y_graph:
-                        for j in scc:
-                            if j in x_to_y_graph[i]:
-                                e_w.add(tuple((i, j)))
+            global SCC_GLOBAL
+            for i in scc:
+                if (i not in SCC_GLOBAL):
+                    SCC_GLOBAL.append(i)
+                if i in x_to_y_graph:
+                    for j in scc:
+                        if j in x_to_y_graph[i]:
+                            e_w.add(tuple((i, j)))
 
     # Adding edges into maximum matching set - E1
     for i in matching:
