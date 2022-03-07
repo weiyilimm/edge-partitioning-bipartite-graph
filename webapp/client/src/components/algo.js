@@ -13,21 +13,21 @@ const Algo = () => {
     var noteForE1Line = <p>Note: Edges from set <span style={{"color": "#e06c75"}}>E</span> are shown as black lines; Edges from <span style={{"color": "#e06c75"}}>E1</span> are shown as green lines.</p>;
     var noteForEPrimeLine = <p>Note: Edges from set <span style={{"color": "#e06c75"}}>E'</span> are shown as black lines; Edges from the matching of <span style={{"color": "#e06c75"}}>E'</span> are shown as green lines.</p>;
     var directedGraphText1 = <div>
-                                A <b>directed graph</b> is a graph which the edges have a direction. The direction of an edge is determined by below.
+                                A <b>directed graph</b> is a graph in which the edges have a direction. The direction of an edge is determined below.
                                 <ul>
-                                    <li>A matched edge (green line) goes from its endpoint in X set (yellow vertex) to another end point in Y set (blue vertex).</li>
-                                    <li>An unmatched edge (black line) goes from its endpoint in Y set (blue vertex) to another end point in X set (yellow vertex).</li>
+                                    <li>A matched edge (green line) goes from its endpoint in X set (yellow vertex) to another endpoint in Y set (blue vertex).</li>
+                                    <li>An unmatched edge (black line) goes from its endpoint in Y set (blue vertex) to another endpoint in X set (yellow vertex).</li>
                                 </ul>
                             </div>;
     var SCCText1 = <p>A <b>strongly connected component</b> (green lines) is a subset of the directed graph that could form a cycle (where if a vertex follows the direction of its edges, it will return back to itself). It is possible to have more than one strongly connected component. However, if a strongly connected component is a subset of a larger strongly connected component, the larger set will be chosen as the strongly connected component.</p>;
     var SCCText2 = <p>A <a href="https://epubs.siam.org/doi/epdf/10.1137/0201010" className='document'>Tarjan's strongly connected components algorithm</a> with a worst-case running time of O(|X| + |Y| + |E|), where |X| is the number of X vertices, |Y| is the number of Y vertices, and |E| is the number of edges is used.</p>;
-    var E0Text1 = <p>All of the edges from the bipartite graph that does not belong to "<b>some maximum matching (EW)</b>" and "<b>all maximum matching (E1)</b>" sets belongs to the"<b>no maximum matching (E0)</b>" set (green lines).</p>;
+    var E0Text1 = <p>All of the edges from the bipartite graph that does not belong to the "<b>some maximum matching (EW)</b>" and the "<b>all maximum matching (E1)</b>" sets belong to the"<b>no maximum matching (E0)</b>" set (green lines).</p>;
     var E0Text2 = <p>"<b>No maximum matching (E0)</b>" is a set of edges (green lines) that does not exist in any of the possible maximum matchings.</p>;
-    var EWText1 = <p>All strongly connected components belong to "<b>some maximum matching (EW)</b>" set (green lines), and is a subset of all the edges in a bipartite graph.</p>;
-    var EWText2 = <p>It is possible for a bipartite graph to contain more than one way of generating a maximum matching (recall that this means there is a highest number of one-to-one matchings between both sets of vertices), therefore, all edges in "<b>some maximum matching (EW)</b>" set (green lines) that we find must be at least in one of the maximum matching choices that we could generate, but not in every one of the choices as that would be part of a different set.</p>;
-    var E1Text1 = <p>The remaining edges of the maximum matching set that does not belong to "<b>some maximum matching (EW)</b>" set belongs to "<b>all maximum matching (E1)</b>" set (green lines).</p>;
+    var EWText1 = <p>All strongly connected components belong to the "<b>some maximum matching (EW)</b>" set (green lines) and is a subset of all the edges in a bipartite graph.</p>;
+    var EWText2 = <p>A bipartite graph can contain more than one way of generating a maximum matching (recall that this means there is a highest number of one-to-one matchings between both sets of vertices). Therefore, all edges in "<b>some maximum matching (EW)</b>" set (green lines) that we find must be at least in one of the maximum matching choices that we could generate, but not in every one of the choices as that would be part of a different set.</p>;
+    var E1Text1 = <p>The remaining edges of the maximum matching set that does not belong to the "<b>some maximum matching (EW)</b>" set belong to the "<b>all maximum matching (E1)</b>" set (green lines).</p>;
     var E1Text2 = <p>A bipartite graph sometimes contains more than one but at least one maximum matching. The "<b>all maximum matching (E1)</b>" is a set of edges (green lines) that exists in all of the possible maximum matchings.</p>;
-    var learnPerfectMatchingText = <p>Learn another method of edge partitioning for <a href="/graph-initialisation" className='document'>PERFECT MATCHING</a> by setting same number of vertices in left(X) and right(Y) vertex sets, e.g. "4" and "4". </p>;
+    var learnPerfectMatchingText = <p>Learn another method of edge partitioning for <a href="/graph-initialisation" className='document'>PERFECT MATCHING</a> by setting the same number of vertices in left(X) and right(Y) vertex sets, e.g. "4" and "4". </p>;
     // Step 2
     var step2title = 'Step 2: Finding maximum matching';
     var step2Text1 = <p>A <b>matching</b> is a one-to-one relationship between two sets of vertices (yellow and blue), where a vertex (yellow) is connected to exactly one other vertex (blue) by an edge (green). A <b>maximum matching</b> is the highest number of one-to-one matchings (green edges) that could occur in the two sets of vertices.</p>;
@@ -45,7 +45,7 @@ const Algo = () => {
     // Step 3 Imperfect 
     var step3titleImperfect = step3title;
     var step3Text1Imperfect = step3Text1;
-    var step3Text2Imperfect = <p>The exposed vertices are shown with a box, these vertices are not connected with a vertex of another set by a matched edge (green). Thus, the bipartite graph contains a <b>imperfect maximum matching</b>.</p>;
+    var step3Text2Imperfect = <p>The exposed vertices are shown with a box; these vertices are not connected with a vertex of another set by a matched edge (green). Thus, the bipartite graph contains an <b>imperfect maximum matching</b>.</p>;
     var step3Text3Imperfect = noteForMatchedLine;
 
     // Step 4 Perfect
@@ -97,14 +97,14 @@ const Algo = () => {
     // Step 6 Imperfect
     var step6titleImperfect = 'Step 6: Find "no maximum matching (E0)"';
     var step6Text1Imperfect = <div>
-                                In a bipartite graph G(X, Y, E), an edge from E set belongs to "<b>no maximum matching (E0)</b>" set (green lines) if it also belongs to one of the following:
+                                In a bipartite graph G(X, Y, E), an edge from the E set belongs to the "<b>no maximum matching (E0)</b>" set (green lines) if it also belongs to one of the following:
                                 <ul>
                                     <li>the cartesian product of B<sub>x</sub> and B<sub>y</sub> sets (B<sub>x</sub> × B<sub>y</sub>)</li>
                                     <li>the cartesian product of B<sub>x</sub> and C<sub>y</sub> sets (B<sub>x</sub> × C<sub>y</sub>)</li>
                                     <li>the cartesian product of C<sub>x</sub> and B<sub>y</sub> sets (C<sub>x</sub> × B<sub>y</sub>)</li>
                                 </ul>
                             </div>;
-    var step6Text2Imperfect = <p>It is possible for a bipartite graph to contain more than one way of generating a maximum matching (recall that this means there is a highest number of one-to-one matchings between both sets of vertices), therefore, the "<b>no maximum matching set (E0)</b>" (green lines) is a set of edges that does not exist in any of the maximum matching choices that we could generate.</p>;
+    var step6Text2Imperfect = <p>A bipartite graph can contain more than one way of generating a maximum matching (recall that this means there is a highest number of one-to-one matchings between both sets of vertices). Therefore, the "<b>no maximum matching set (E0)</b>" (green lines) is a set of edges where each edge does not exist in any of the maximum matching choices that we could generate.</p>;
     var step6Text3Imperfect = noteForE0Line;
 
     // Step 7 Perfect
@@ -115,13 +115,13 @@ const Algo = () => {
     // Step 7 Imperfect
     var step7titleImperfect = 'Step 7: Find "some maximum matching (EW)"';
     var step7Text1Imperfect = <div>
-                                In a bipartite graph G(X, Y, E), an edge from E set belongs to "<b>some maximum matching (EW)</b>" set (green lines) if it also belongs to one of the following:
+                                In a bipartite graph G(X, Y, E), an edge from the E set belongs to the "<b>some maximum matching (EW)</b>" set (green lines) if it also belongs to one of the following:
                                 <ul>
                                     <li>the cartesian product of A<sub>x</sub> and B<sub>y</sub> sets (A<sub>x</sub> × B<sub>y</sub>)</li>
                                     <li>the cartesian product of B<sub>x</sub> and A<sub>y</sub> sets (B<sub>x</sub> × A<sub>y</sub>)</li>
                                 </ul>
                             </div>;
-    var step7Text2Imperfect = <p>A bipartite graph sometimes contains more than one but at least one maximum matching, therefore, all edges in "<b>some maximum matching (EW)</b>" set (green lines) that we find must be at least in one of the maximum matching choices that we could generate, but not in every one of the choices as that would be part of a different set.</p>;
+    var step7Text2Imperfect = <p>A bipartite graph sometimes contains more than one but at least one maximum matching. Therefore, all edges in "<b>some maximum matching (EW)</b>" set (green lines) that we find must be at least in one of the maximum matching choices that we could generate, but not in every one of the choices as that would be part of a different set.</p>;
     var step7Text3Imperfect = noteForEWLine;
 
     // Step 8 Perfect
@@ -132,7 +132,7 @@ const Algo = () => {
     // Step 8 Imperfect 
     var step8titleImperfect = <p>Step 8: Find a subgraph G'(C<sub>x</sub>∪C<sub>y</sub>, E')</p>;
     var step8Text1Imperfect = <p>G'(C<sub>x</sub>∪C<sub>y</sub>, E') is a subgraph of a bipartite graph G(X, Y, E), where C<sub>x</sub> is a set that contains U(∪) labelled vertices in X set, C<sub>y</sub> is a set that contains U(∪) labelled vertices in Y set, and E' is the cartesian product of C<sub>x</sub> and C<sub>y</sub>.</p>;
-    var step8Text2Imperfect = <p>In other words, all of the edges from the bipartite graph that does not belong to "<b>no maximum matching (E0)</b>" and "<b>some maximum matching (EW)</b>" sets belongs to the <b>E'</b> set (green lines).</p>;
+    var step8Text2Imperfect = <p>In other words, all of the edges from the bipartite graph that do not belong to "<b>no maximum matching (E0)</b>" and "<b>some maximum matching (EW)</b>" sets belong to the <b>E'</b> set (green lines).</p>;
     var step8Text3Imperfect = <p>Note: Edges from set <span style={{"color": "#e06c75"}}>E</span> are shown as black lines; Edges from <span style={{"color": "#e06c75"}}>E'</span> are shown as green lines.</p>;
 
     // Step 9 Perfect
@@ -142,7 +142,7 @@ const Algo = () => {
     var step9Text3Perfect = <p>Learn another method of edge partitioning, <a href="/graph-initialisation" className='document'>IMPERFECT MATCHING</a> by setting a different number of vertices in left(X) and right(Y) vertex sets, e.g. "3" and "4". </p>;
     // Step 9 Imperfect if no E PRIME
     var step9titleImperfect1 = 'Step 9: Find "all maximum matching (E1)"';
-    var step9Text1Imperfect1 = <p>None of the edge belongs to "all maximum matching (E1)" set if <b>E'</b> is an empty set.</p>;
+    var step9Text1Imperfect1 = <p>None of the edges belongs to the "all maximum matching (E1)" set if <b>E'</b> is an empty set.</p>;
     var step9Text2Imperfect1 = <p>The "<b>all maximum matching (E1)</b>" (green lines) is a set of edges that exists in all of the possible maximum matchings.</p>;
     var step9Text3Imperfect1 = noteForEPrimeLine;
     // Step 9 Imperfect if got E PRIME
