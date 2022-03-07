@@ -45,3 +45,18 @@ hr{
     position: sticky;
     top: 600px;
 }
+
+.modal-content{
+    overflow: auto;
+}
+
+.picture{
+    max-width: 334px !important;
+    width:100% !important;  
+    
+}
+
+.align-middle{
+    vertical-align: middle;
+    text-align: center;
+}

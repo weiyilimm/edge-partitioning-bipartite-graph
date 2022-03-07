@@ -3,9 +3,15 @@ import CreateGraph from './graph';
 import NavigationBar from './NavigationBar';
 import { Button } from 'react-bootstrap';
 import "./algo.css";
+import { Modal } from 'react-bootstrap';
+import { Container, Row, Col } from 'react-bootstrap';
+
 
 const Algo = () => {
-
+    const [show, setShow] = useState(false);
+    const handleClose = () => setShow(false);
+    const handleShow = () => setShow(true);
+    
     var noteForMatchedLine = <p>Note: Edges from set <span style={{"color": "#e06c75"}}>E</span> are shown as black lines; Matching edges from set <span style={{"color": "#e06c75"}}>M</span> are shown as green lines.</p>;
     var noteForSCCLine = <p>Note: Edges from set <span style={{"color": "#e06c75"}}>E</span> are shown as black lines; Edges from the <span style={{"color": "#e06c75"}}>SCC component</span> are shown as green lines.</p>;
     var noteForE0Line = <p>Note: Edges from set <span style={{"color": "#e06c75"}}>E</span> are shown as black lines; Edges from <span style={{"color": "#e06c75"}}>E0</span> are shown as green lines.</p>;
@@ -99,7 +105,7 @@ const Algo = () => {
     var step6Text1Imperfect = <div>
                                 In a bipartite graph G(X, Y, E), an edge from the E set belongs to the "<b>no maximum matching (E0)</b>" set (green lines) if it also belongs to one of the following:
                                 <ul>
-                                    <li>the cartesian product of B<sub>x</sub> and B<sub>y</sub> sets (B<sub>x</sub> × B<sub>y</sub>)</li>
+                                    <li>the <span className='document' onClick={handleShow}>cartesian product</span> of B<sub>x</sub> and B<sub>y</sub> sets (B<sub>x</sub> × B<sub>y</sub>)</li>
                                     <li>the cartesian product of B<sub>x</sub> and C<sub>y</sub> sets (B<sub>x</sub> × C<sub>y</sub>)</li>
                                     <li>the cartesian product of C<sub>x</sub> and B<sub>y</sub> sets (C<sub>x</sub> × B<sub>y</sub>)</li>
                                 </ul>
@@ -769,7 +775,8 @@ const Algo = () => {
     return (
         <div>
             <NavigationBar />
-            <div className='container-fluid row'>
+            <div style={{position:'relative'}}>
+                <div className='container-fluid row' style={{position:'absolute', zIndex:'-1'}}>
                     <div className='col-md-6 col-xs-12'>
                         <CreateGraph 
                         graph={graph} 
@@ -803,7 +810,34 @@ const Algo = () => {
                         <Button id="prev" className="btn btn-md-pink" role="button" onClick={prevButton} disabled={prevButtonDisabled}>Prev</Button>
                         <Button id="next" className="btn btn-md-pink" role="button" onClick={nextButton} disabled={nextButtonDisabled}>Next</Button>
                     </div>
-                
+                </div>
+                <div>
+                    <Modal show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered className='modal-content'>
+                        <Modal.Header closeButton>
+                        <Modal.Title>Cartesian Product Definition</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Container className="show-grid">
+                            <Row>
+                                <Col xs={12} className='mb-5'>
+                                A cartesian product of a set (left vertex set) and another set (right vertex set), is a set that consists of the possible edges between two vertices.
+                                </Col>
+                                <Col xs={12} className='align-middle'>
+                                <img src="/CartesianProduct.png" alt="Cartesian Product" className='picture'></img>
+                                </Col>
+                                <Col xs={12}>
+                                In the bipartite graph above, the left vertex set consist of A, B, C and the right vertex set consist of 1, 2, 3. The cartesian product of left and right vertex set is a set of edges, (A, 2), (B, 1), (C, 2), (C, 3).
+                                </Col>
+                            </Row>
+                            </Container>
+                        </Modal.Body>
+                        <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClose}>
+                            Close
+                        </Button>
+                        </Modal.Footer>
+                    </Modal>
+                </div>
             </div>
         </div>
     )
