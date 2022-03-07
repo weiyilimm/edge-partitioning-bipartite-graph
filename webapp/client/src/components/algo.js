@@ -8,9 +8,13 @@ import { Container, Row, Col } from 'react-bootstrap';
 
 
 const Algo = () => {
-    const [show, setShow] = useState(false);
-    const handleClose = () => setShow(false);
-    const handleShow = () => setShow(true);
+    const [showCP, setShowCP] = useState(false);
+    const handleCloseCP = () => setShowCP(false);
+    const handleShowCP = () => setShowCP(true);
+
+    const [showPopUpSCC, setShowPopUpSCC] = useState(false);
+    const handleClosePopUpSCC = () => setShowPopUpSCC(false);
+    const handleShowPopUpSCC = () => setShowPopUpSCC(true);
     
     var noteForMatchedLine = <p>Note: Edges from set <span style={{"color": "#e06c75"}}>E</span> are shown as black lines; Matching edges from set <span style={{"color": "#e06c75"}}>M</span> are shown as green lines.</p>;
     var noteForSCCLine = <p>Note: Edges from set <span style={{"color": "#e06c75"}}>E</span> are shown as black lines; Edges from the <span style={{"color": "#e06c75"}}>SCC component</span> are shown as green lines.</p>;
@@ -25,8 +29,8 @@ const Algo = () => {
                                     <li>An unmatched edge (black line) goes from its endpoint in Y set (blue vertex) to another endpoint in X set (yellow vertex).</li>
                                 </ul>
                             </div>;
-    var SCCText1 = <p>A <b>strongly connected component</b> (green lines) is a subset of the directed graph that could form a cycle (where if a vertex follows the direction of its edges, it will return back to itself). It is possible to have more than one strongly connected component. However, if a strongly connected component is a subset of a larger strongly connected component, the larger set will be chosen as the strongly connected component.</p>;
-    var SCCText2 = <p>A <a href="https://epubs.siam.org/doi/epdf/10.1137/0201010" className='document'>Tarjan's strongly connected components algorithm</a> with a worst-case running time of O(|X| + |Y| + |E|), where |X| is the number of X vertices, |Y| is the number of Y vertices, and |E| is the number of edges is used.</p>;
+    var SCCText1 = <p>A <b>strongly connected component</b> (green lines) is a subset of the directed graph that could form a cycle (where if a vertex follows the direction of its edges, it will return back to itself). It is possible to have more than one strongly connected component. However, if a strongly connected component is a subset of a larger strongly connected component, the larger set will be chosen as the strongly connected component. Click <span className='document' onClick={handleShowPopUpSCC}>EXAMPLE</span> to learn more.</p>;
+    var SCCText2 = <p>A <a href="https://epubs.siam.org/doi/epdf/10.1137/0201010" className='document'>Tarjan's strongly connected components algorithm</a> with a worst-case running time of O(|X| + |Y| + |E|), where |X| is the number of X vertices, |Y| is the number of Y vertices, and |E| is the number of edges is used.</p>; 
     var E0Text1 = <p>All of the edges from the bipartite graph that does not belong to the "<b>some maximum matching (EW)</b>" and the "<b>all maximum matching (E1)</b>" sets belong to the"<b>no maximum matching (E0)</b>" set (green lines).</p>;
     var E0Text2 = <p>"<b>No maximum matching (E0)</b>" is a set of edges (green lines) that does not exist in any of the possible maximum matchings.</p>;
     var EWText1 = <p>All strongly connected components belong to the "<b>some maximum matching (EW)</b>" set (green lines) and is a subset of all the edges in a bipartite graph.</p>;
@@ -105,7 +109,7 @@ const Algo = () => {
     var step6Text1Imperfect = <div>
                                 In a bipartite graph G(X, Y, E), an edge from the E set belongs to the "<b>no maximum matching (E0)</b>" set (green lines) if it also belongs to one of the following:
                                 <ul>
-                                    <li>the <span className='document' onClick={handleShow}>cartesian product</span> of B<sub>x</sub> and B<sub>y</sub> sets (B<sub>x</sub> × B<sub>y</sub>)</li>
+                                    <li>the <span className='document' onClick={handleShowCP}>cartesian product</span> of B<sub>x</sub> and B<sub>y</sub> sets (B<sub>x</sub> × B<sub>y</sub>)</li>
                                     <li>the cartesian product of B<sub>x</sub> and C<sub>y</sub> sets (B<sub>x</sub> × C<sub>y</sub>)</li>
                                     <li>the cartesian product of C<sub>x</sub> and B<sub>y</sub> sets (C<sub>x</sub> × B<sub>y</sub>)</li>
                                 </ul>
@@ -123,7 +127,7 @@ const Algo = () => {
     var step7Text1Imperfect = <div>
                                 In a bipartite graph G(X, Y, E), an edge from the E set belongs to the "<b>some maximum matching (EW)</b>" set (green lines) if it also belongs to one of the following:
                                 <ul>
-                                    <li>the <span className='document' onClick={handleShow}>cartesian product</span> of A<sub>x</sub> and B<sub>y</sub> sets (A<sub>x</sub> × B<sub>y</sub>)</li>
+                                    <li>the <span className='document' onClick={handleShowCP}>cartesian product</span> of A<sub>x</sub> and B<sub>y</sub> sets (A<sub>x</sub> × B<sub>y</sub>)</li>
                                     <li>the cartesian product of B<sub>x</sub> and A<sub>y</sub> sets (B<sub>x</sub> × A<sub>y</sub>)</li>
                                 </ul>
                             </div>;
@@ -812,7 +816,7 @@ const Algo = () => {
                     </div>
                 </div>
                 <div>
-                    <Modal show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered className='mb-5'>
+                    <Modal show={showCP} onHide={handleCloseCP} aria-labelledby="contained-modal-title-vcenter" centered className='mb-5'>
                         <Modal.Header closeButton>
                         <Modal.Title>Cartesian Product Definition</Modal.Title>
                         </Modal.Header>
@@ -832,7 +836,38 @@ const Algo = () => {
                             </Container>
                         </Modal.Body>
                         <Modal.Footer>
-                        <Button variant="secondary" onClick={handleClose}>
+                        <Button variant="secondary" onClick={handleCloseCP}>
+                            Close
+                        </Button>
+                        </Modal.Footer>
+                    </Modal>
+                    <Modal show={showPopUpSCC} onHide={handleClosePopUpSCC} aria-labelledby="contained-modal-title-vcenter" centered className='mb-5'>
+                        <Modal.Header closeButton>
+                        <Modal.Title>Strongly connected component</Modal.Title>
+                        </Modal.Header>
+                        <Modal.Body>
+                            <Container className="show-grid">
+                            <Row>
+                                <Col xs={12} className='mb-5'>
+                                A strongly connected component is a subgraph of a bipartite graph in which each vertex is reachable from other vertices.
+                                </Col>
+                                <Col xs={12} className='align-middle'>
+                                <img src="/SCCMatching.png" alt="Bipartite Graph" className='picture'></img>
+                                </Col>
+                                <Col xs={12} className='mb-5'>
+                                The above shows a directed bipartite graph with a maximum matching (green lines).
+                                </Col>
+                                <Col xs={12} className='align-middle'>
+                                <img src="/SCCGraph.png" alt="SCC graph" className='picture'></img>
+                                </Col>
+                                <Col xs={12}>
+                                The above shows a strongly connected component (green lines) which forms a cycle (where if a vertex follows the direction of its edges, it will return back to itself). For example, vertex "A" goes to vertex "2", vertex "2" goes to vertex "B", vertex "B" goes to vertex "1", and vertex "1" goes back to vertex "A".
+                                </Col>
+                            </Row>
+                            </Container>
+                        </Modal.Body>
+                        <Modal.Footer>
+                        <Button variant="secondary" onClick={handleClosePopUpSCC}>
                             Close
                         </Button>
                         </Modal.Footer>
