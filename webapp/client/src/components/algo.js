@@ -812,7 +812,7 @@ const Algo = () => {
                     </div>
                 </div>
                 <div>
-                    <Modal show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered className='modal-content'>
+                    <Modal show={show} onHide={handleClose} aria-labelledby="contained-modal-title-vcenter" centered className='mb-5'>
                         <Modal.Header closeButton>
                         <Modal.Title>Cartesian Product Definition</Modal.Title>
                         </Modal.Header>
@@ -820,13 +820,13 @@ const Algo = () => {
                             <Container className="show-grid">
                             <Row>
                                 <Col xs={12} className='mb-5'>
-                                A cartesian product of a set (left vertex set) and another set (right vertex set) is a set that consists of the possible edges between two vertices.
+                                A cartesian product of a vertex set (e.g. yellow) and another vertex set (e.g. blue) is defined as a set that consists of the possible edges between two sets of vertices.
                                 </Col>
                                 <Col xs={12} className='align-middle'>
                                 <img src="/CartesianProduct.png" alt="Cartesian Product" className='picture'></img>
                                 </Col>
                                 <Col xs={12}>
-                                In the bipartite graph above, the left vertex set consists of A, B, C and the right vertex set consists of 1, 2, 3. The cartesian product of the left and right vertex set is a set of edges, (A, 2), (B, 1), (C, 2), (C, 3).
+                                <p>In the bipartite graph above, the left vertex set consists of &#123;A, B, C&#125; and the right vertex set consists of &#123;1, 2, 3&#125;. The cartesian product of the left and right vertex set is a set of possible edges, &#123;(A, 2), (B, 1), (C, 2), (C, 3)&#125;.</p>
                                 </Col>
                             </Row>
                             </Container>

@@ -46,10 +46,6 @@ hr{
     top: 600px;
 }
 
-.modal-content{
-    overflow: auto;
-}
-
 .picture{
     max-width: 334px !important;
     width:100% !important;  
@@ -59,4 +55,9 @@ hr{
 .align-middle{
     vertical-align: middle;
     text-align: center;
+}
+
+.modal-body {
+    max-height: calc(100vh - 210px);
+    overflow-y: auto;
 }
