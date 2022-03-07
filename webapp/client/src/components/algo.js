@@ -123,7 +123,7 @@ const Algo = () => {
     var step7Text1Imperfect = <div>
                                 In a bipartite graph G(X, Y, E), an edge from the E set belongs to the "<b>some maximum matching (EW)</b>" set (green lines) if it also belongs to one of the following:
                                 <ul>
-                                    <li>the cartesian product of A<sub>x</sub> and B<sub>y</sub> sets (A<sub>x</sub> × B<sub>y</sub>)</li>
+                                    <li>the <span className='document' onClick={handleShow}>cartesian product</span> of A<sub>x</sub> and B<sub>y</sub> sets (A<sub>x</sub> × B<sub>y</sub>)</li>
                                     <li>the cartesian product of B<sub>x</sub> and A<sub>y</sub> sets (B<sub>x</sub> × A<sub>y</sub>)</li>
                                 </ul>
                             </div>;
@@ -820,13 +820,13 @@ const Algo = () => {
                             <Container className="show-grid">
                             <Row>
                                 <Col xs={12} className='mb-5'>
-                                A cartesian product of a set (left vertex set) and another set (right vertex set), is a set that consists of the possible edges between two vertices.
+                                A cartesian product of a set (left vertex set) and another set (right vertex set) is a set that consists of the possible edges between two vertices.
                                 </Col>
                                 <Col xs={12} className='align-middle'>
                                 <img src="/CartesianProduct.png" alt="Cartesian Product" className='picture'></img>
                                 </Col>
                                 <Col xs={12}>
-                                In the bipartite graph above, the left vertex set consist of A, B, C and the right vertex set consist of 1, 2, 3. The cartesian product of left and right vertex set is a set of edges, (A, 2), (B, 1), (C, 2), (C, 3).
+                                In the bipartite graph above, the left vertex set consists of A, B, C and the right vertex set consists of 1, 2, 3. The cartesian product of the left and right vertex set is a set of edges, (A, 2), (B, 1), (C, 2), (C, 3).
                                 </Col>
                             </Row>
                             </Container>
